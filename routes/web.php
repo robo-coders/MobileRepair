@@ -16,8 +16,12 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Hash;
 
 // Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
+Route::get('/', function () {
+    return Hash::make("admin@123");
+});
 
 
 Route::middleware(['auth', 'check-user-role'])->group(function () {
@@ -27,7 +31,6 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/{id}', [AgentApplicationController::class, 'agentStatus'])->name('agent.status');
         Route::get('/reject/application/reason/{id}', [AgentApplicationController::class, 'agentStatusToReject'])->name('agent.status.reject');
         Route::post('/approve/application/{id}', [AgentApplicationController::class, 'agentStatusToApprove'])->name('agent.status.approve');
-
     });
 
  //Agent
