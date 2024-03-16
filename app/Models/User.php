@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(AgentApplication::class);
     }
+
+    public function userAssignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
 }

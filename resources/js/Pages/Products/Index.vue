@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-            <h3 class="mb-4">Product List</h3>
+                <h3 class="mb-4">Product List</h3>
             </div>
             <div class="col text-right">
             <Link class="btn btn-primary" href="/products/add">Add New</Link>

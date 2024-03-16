@@ -17,8 +17,25 @@ class Order extends Model
         'total_amount',
         'status'
     ];
+
+    public function order_parts()
+    {
+        return $this->hasMany(Order_part::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function orderAssignments()
+    {
+        return $this->hasOne(Assignment::class);
+    }
     
-    protected $appends = [
-        "created_date"
-    ];
 }

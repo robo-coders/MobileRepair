@@ -19,7 +19,6 @@ class CheckUserRole
         if ($request->path() != "logout") {
             if (Auth::check()) {
                 if(Auth::user()->role == "Agent") {
-    
                     if ($request->route()->getPrefix() != "/agent/applications") {
                         $agentApplication = Auth::user()->agentApplications()->latest()->first();
 

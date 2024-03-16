@@ -26,17 +26,17 @@
                 <label for="dropdown">Choose Product</label>
                 <select class="custom-select" id="dropdown" v-model="form.id">
                     <option value="" disabled>-- Select Product --</option>
-                    <option v-for="option in dropdownOptions" :key="option.id" :value="option.product_id">
+                    <option v-for="option in dropdownOptions" :key="option.id" :value="option.id">
                         {{ option.products[0].name}}
                     </option>
                 </select>
             </div>  
 
             <div class="form-group">
-                <label for="dropdown">Choose Product Part</label>
+                <label for="dropdown">Choose Product</label>
                 <select class="custom-select" id="dropdown" v-model="form.id">
                     <option value="" disabled>-- Select Parts --</option>
-                    <option v-for="option in dropdownOptions" :key="option.id" :value="option.product_part">
+                    <option v-for="option in dropdownOptions" :key="option.id" :value="option.id">
                         {{ option.products[0].product_parts[0].name}}
                     </option>
                 </select>

@@ -60,10 +60,19 @@
         <li class="nav-item">
             <Link class="nav-link" href="/parts"><i class="fas fa-fw fa-tachometer-alt"></i><span>Parts</span></Link>
         </li>
-
         <li class="nav-item">
-            <Link class="nav-link" :href="route('agent.orders.index')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Orders</span></Link>
+            <Link class="nav-link" :href="route('agent.orders.index')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Orders (agent)</span></Link>
         </li>
+        <li class="nav-item">
+            <Link class="nav-link" :href="route('orders.index')"><i class="fas fa-fw fa-tachometer-alt"></i><span>OrderList ( S Admin)</span></Link>
+        </li>
+        <li class="nav-item">
+            <Link class="nav-link" :href="route('driver.orders.pending')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Pending (driver)</span></Link>
+        </li>
+        <li class="nav-item">
+            <Link class="nav-link" :href="route('driver.orders.myOrders')"><i class="fas fa-fw fa-tachometer-alt"></i><span>My orders (driver)</span></Link>
+        </li>
+
             
     </ul>
     <!-- End of Sidebar -->

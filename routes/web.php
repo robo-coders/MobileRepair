@@ -10,7 +10,9 @@ use Inertia\Inertia;
 
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -28,7 +30,6 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
 
     });
 
-
  //Agent
     Route::prefix('agent/applications')->group(function () {
         // Route::get('/list', [AgentController::class, 'applicationList'])->name('agent.application.list');
@@ -43,6 +44,19 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/', [AgentOrdersController::class, 'index'])->name('agent.orders.index');
         Route::get('/add', [AgentOrdersController::class, 'add'])->name('agent.orders.add');
         Route::post('/save', [AgentOrdersController::class, 'save'])->name('agent.orders.save');
+    });
+//Orders
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+
+    });
+//Drivers
+    Route::prefix('driver/orders')->group(function () {
+        Route::get('/', [DriverController::class, 'index'])->name('driver.orders.index');
+        Route::get('/pending', [DriverController::class, 'pendingOrders'])->name('driver.orders.pending');
+        Route::get('/assign/me/{id}', [DriverController::class, 'assignToMyself'])->name('driver.orders.assignToMyself');
+        Route::get('/assigned', [DriverController::class, 'myOrders'])->name('driver.orders.myOrders');
+
     });
 
 
