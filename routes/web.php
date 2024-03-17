@@ -48,7 +48,9 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
 //Orders
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
-
+        Route::get('/processing/{id}', [OrderController::class, 'changeStatusToProcessing'])->name('orders.status.processing');
+        Route::get('/unassigned/shipped/{id}', [OrderController::class, 'changeStatusToUnAssignedShipped'])->name('orders.status.unAssignedShipped');
+        
     });
 //Drivers
     Route::prefix('driver/orders')->group(function () {
@@ -56,6 +58,7 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/pending', [DriverController::class, 'pendingOrders'])->name('driver.orders.pending');
         Route::get('/assign/me/{id}', [DriverController::class, 'assignToMyself'])->name('driver.orders.assignToMyself');
         Route::get('/assigned', [DriverController::class, 'myOrders'])->name('driver.orders.myOrders');
+        Route::get('/delivered/{id}', [DriverController::class, 'markAsdelivered'])->name('driver.orders.delivered');
 
     });
 

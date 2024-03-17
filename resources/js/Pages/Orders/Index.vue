@@ -36,6 +36,7 @@
                             'badge-primary': order.status === 'Pending',
                             'badge-info': order.status === 'Assigned',
                             'badge-warning': order.status === 'Processing',
+                            'badge-primary': order.status === 'unAssignedShipped',
                             'badge-info': order.status === 'Shipped',
                             'badge-success': order.status === 'Delivered',
                             'badge-danger': order.status === 'Cancelled'
@@ -46,9 +47,11 @@
                     <td> --- </td>
                     <td>
                     <div class="btn-group">
-                        <button v-if="order.status === 'Assigned'" class="btn btn-sm btn-warning" @click="changeStatus(order, 'Processing')">Start Processing</button>
-                        <button v-if="order.status === 'Processing'" class="btn btn-sm btn-success" @click="changeStatus(order, 'Delivered')">Mark as Delivered</button>
-                        <button v-if="order.status === 'Shipped'" class="btn btn-sm btn-success" @click="changeStatus(order, 'Delivered')">Mark as Delivered</button>
+                        <Link v-if="order.status === 'Assigned'" class="btn btn-sm btn-warning" :href="route('orders.status.processing', order.id)">Start Processing</Link>
+                        <Link v-if="order.status === 'Processing'" class="btn btn-sm btn-success" :href="route('orders.status.unAssignedShipped', order.id)">Ready to Shipped</Link>
+                        <span v-if="order.status === 'unAssignedShipped'" class="badge badge-info">Awaiting Driver</span>
+
+                        <Link v-if="order.status === 'Shipped'" class="btn btn-sm btn-success">Mark as Delivered</Link>
                     </div>
                     </td>
                 </tr>

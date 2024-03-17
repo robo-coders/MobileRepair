@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('assignments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamp('assigned_at')->nullable();
             $table->timestamp('completed_at')->nullable();
-            $table->enum('status', ['Pending', 'Assigned', 'Processing', 'Shipped', 'Delivered', 'Cancelled'])->default('Assigned');
+            $table->enum('status', ['Pending', 'Assigned', 'Processing', 'unAssignedShipped', 'Shipped', 'Delivered', 'Cancelled'])->default('Pending');
             $table->timestamps();
         });
     }

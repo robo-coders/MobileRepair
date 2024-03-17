@@ -24,7 +24,8 @@
                   <th scope="col">#</th>
                   <th scope="col">Description</th>
                   <th scope="col">Total Amount</th>
-                  <th scope="col">Created At</th>
+                  <th scope="col">Assigned At</th>
+                  <th scope="col">Delivered At</th>
                   <th scope="col">Status</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -32,17 +33,23 @@
               <tbody>
                 <tr v-for="(order, index) in orders" :key="order.id">
                   <th scope="row">{{ index + 1 }}</th>
-                  <td>{{ order.description }}</td>
-                  <td>{{ order.total_amount }}</td>
-                  <td>{{ order.created_at }}</td>
+                  <td>{{ order.order.description }}</td>
+                  <td>{{ order.order.total_amount }}</td>
+                  <td>{{ order.assigned_at }}</td>
+                  <td> {{ order.completed_at }}</td>
                   <td>
-                    <span v-if="order.status === 'Pending'" class="badge badge-warning">{{ order.status }}</span>
-                    <span v-if="order.status === 'unAssignedShipped'" class="badge badge-info">Awaiting Driver</span>
+                    <span class="badge" :class="{
+                        'badge-primary': order.status === 'Assigned',
+                        'badge-warning': order.status === 'Processing',
+                        'badge-info': order.status === 'Shipped',
+                        'badge-success': order.status === 'Delivered',
+                        'badge-danger': order.status === 'Cancelled'
+                        }">
+                            {{ order.status }}
+                    </span>
                   </td>
                   <td>
-                    <Link  class="btn btn-sm btn-primary" :href="route('driver.orders.assignToMyself', order.id)">
-                      Assign to Myself
-                    </Link>
+                    <Link v-if="order.status === 'Shipped'" class="btn btn-sm btn-success" :href="route('driver.orders.delivered', order.order.id)">Mark as Delivered</Link>
                   </td>
                 </tr>
               </tbody>
