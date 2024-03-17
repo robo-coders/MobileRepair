@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Order_part;
+use App\Models\Product_part;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use PhpParser\Builder\Param;
 
 class AgentOrdersController extends Controller
 {
@@ -18,31 +21,35 @@ class AgentOrdersController extends Controller
 
     public function add()
     {
-        $dropdownOptions = Brand::with('products.product_parts')->get();
+        $brands = Brand::with("products", "products.product_parts")
+                    ->whereStatus("active")
+                    ->get();
 
         return Inertia::render('Orders/Agent_add', [
-            'dropdownOptions' => $dropdownOptions,
+            'brands' => $brands,
         ]);
         
     }
 
     public function save(Request $request)
     {
+        $part = Product_part::where("id", $request->part_id)->first();
+
         $order = Order::create([
-            'user_id' => '2',
-            'brand_id' => '4',
-            'product_id' => '4',
-            'description' => 'test desc',
-            'total_amount' => '100',
+            'user_id' => Auth::id(),
+            'brand_id' => $request->brand_id,
+            'product_id' => $request->product_id,
+            'description' => $request->description,
+            'total_amount' => $part->agent_price
         ]);
             
         Order_part::create([
             'order_id' => $order->id,
-            'part_id' => '5',
-            'amount' => '100',
+            'part_id' => $request->part_id,
+            'amount' => $part->agent_price
         ]);
 
-        return back();
+        return redirect("/agent/orders");
 
     }
 }
