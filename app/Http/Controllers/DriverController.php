@@ -62,7 +62,7 @@ class DriverController extends Controller
         
 
         return Inertia::render('Driver/MyOrders',[
-            'orders' => $orders,
+            'orders' => $orders
         ]);
     }
 
