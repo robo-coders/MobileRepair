@@ -51,13 +51,13 @@
             <Link class="nav-link" :href="route('agent.application.list')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Applications</span></Link>
         </li> -->
 
-        <li class="nav-item">
+        <li class="nav-item" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
             <Link class="nav-link" href="/brands"><i class="fas fa-fw fa-tachometer-alt"></i><span>Brands</span></Link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
             <Link class="nav-link" href="/products"><i class="fas fa-fw fa-tachometer-alt"></i><span>Products</span></Link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
             <Link class="nav-link" href="/parts"><i class="fas fa-fw fa-tachometer-alt"></i><span>Parts</span></Link>
         </li>
         <li class="nav-item">
@@ -69,6 +69,7 @@
         <li class="nav-item">
             <Link class="nav-link" :href="route('driver.orders.pending')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Pending (driver)</span></Link>
         </li>
+
         <li class="nav-item">
             <Link class="nav-link" :href="route('driver.orders.myOrders')"><i class="fas fa-fw fa-tachometer-alt"></i><span>My orders (driver)</span></Link>
         </li>
