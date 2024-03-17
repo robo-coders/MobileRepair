@@ -20,7 +20,7 @@ class DriverController extends Controller
         $orders = Order::where('status', 'Pending')->latest()->get();
         
         return Inertia::render('Driver/Dashboard',[
-            'orders' => $orders,`
+            'orders' => $orders,
         ]);
     }
 
