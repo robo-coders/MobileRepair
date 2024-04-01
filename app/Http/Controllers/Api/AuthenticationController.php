@@ -20,5 +20,6 @@ class AuthenticationController extends Controller
         return response()->success(200, "Success!", [
             "customer" => ($customer) ?? ""
         ]);
+        
     }
 }
