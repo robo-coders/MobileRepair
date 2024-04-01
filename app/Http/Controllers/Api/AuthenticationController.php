@@ -38,7 +38,7 @@ class AuthenticationController extends Controller
         ->first();
 
         if (!Hash::check($request->password, $customer->password)) {
-            throw new ErrorException("Invalid Login Credentials!", 403);
+            return response()->success(403, "Invalid Login Credentials!");
         }
 
         //Update last login timestamps & FCM Token
