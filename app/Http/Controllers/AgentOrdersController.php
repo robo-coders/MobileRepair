@@ -15,7 +15,14 @@ class AgentOrdersController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Orders/Agent_index');
+        $user = auth()->user();
+        $orders = Order::with('brand')
+                    ->where('user_id', $user->id)
+                    ->latest()->get();
+
+        return Inertia::render('Orders/Agent_index', [
+            'orders' => $orders,
+        ]);
 
     }
 

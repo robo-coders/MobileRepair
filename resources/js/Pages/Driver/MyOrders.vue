@@ -3,7 +3,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col">
-            <h3 class="mb-4">Pending Orders</h3>
+            <h3 class="mb-4">My Orders</h3>
           </div>
         </div>
   
@@ -38,18 +38,15 @@
                   <td>{{ order.assigned_at }}</td>
                   <td> {{ order.completed_at }}</td>
                   <td>
-                    <span class="badge" :class="{
-                        'badge-primary': order.status === 'Assigned',
-                        'badge-warning': order.status === 'Processing',
-                        'badge-info': order.status === 'Shipped',
-                        'badge-success': order.status === 'Delivered',
-                        'badge-danger': order.status === 'Cancelled'
-                        }">
-                            {{ order.status }}
-                    </span>
+                    <span v-if="order.status === 'assinged_towards_shop'" class="badge badge-primary"> Assigned. Collect | Deliver Shop </span>
+                    <span v-if="order.status === 'ready_to_shipped'" class="badge badge-info">Awaiting Driver to Deliver</span>
+                    <span v-if="order.status === 'assinged_towards_client'" class="badge badge-primary"> Assigned. Deliver to client </span>
+                    <span v-if="order.status === 'delivered_to_shop'" class="badge badge-success"> Order delivered to shop </span>
+                    <span v-if="order.status === 'delivered_to_client'" class="badge badge-success"> Order delivered to client </span>
                   </td>
                   <td>
-                    <Link v-if="order.status === 'Shipped'" class="btn btn-sm btn-success" :href="route('driver.orders.delivered', order.order.id)">Mark as Delivered</Link>
+                    <Link v-if="order.status === 'assinged_towards_shop'" class="btn btn-sm btn-success" :href="route('driver.orders.shop.delivered', order.order.id)">Shop Delivery Confirmed</Link>
+                    <Link v-if="order.status === 'assinged_towards_client'" class="btn btn-sm btn-success" :href="route('driver.orders.delivered', order.order.id)">Mark as Delivered</Link>
                   </td>
                 </tr>
               </tbody>

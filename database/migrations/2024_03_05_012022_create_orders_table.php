@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('product_id');
             $table->text('description')->nullable();
             $table->decimal('total_amount', 10, 2);
-            $table->enum('status', ['Pending', 'Assigned', 'Processing', 'unAssignedShipped', 'Shipped', 'Delivered', 'Cancelled'])->default('Pending');
+            $table->enum('status', ['pending', 'assinged_towards_shop', 'delivered_to_shop', 'processing', 'ready_to_shipped', 'assinged_towards_client', 'delivered_to_client', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

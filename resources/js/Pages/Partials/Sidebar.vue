@@ -28,7 +28,7 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
 
-        <li class="nav-item active">
+        <li class="nav-item active" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Users</span>
@@ -45,12 +45,11 @@
             </li>
         
         <li class="nav-item">
-            <Link class="nav-link" href="/users"><i class="fas fa-fw fa-tachometer-alt"></i><span>Users</span></Link>
+            <Link class="nav-link" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'" href="/users"><i class="fas fa-fw fa-tachometer-alt"></i><span>Users</span></Link>
         </li>
         <!-- <li class="nav-item">
             <Link class="nav-link" :href="route('agent.application.list')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Applications</span></Link>
         </li> -->
-
         <li class="nav-item" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
             <Link class="nav-link" href="/brands"><i class="fas fa-fw fa-tachometer-alt"></i><span>Brands</span></Link>
         </li>
@@ -60,17 +59,17 @@
         <li class="nav-item" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
             <Link class="nav-link" href="/parts"><i class="fas fa-fw fa-tachometer-alt"></i><span>Parts</span></Link>
         </li>
-        <li class="nav-item">
-            <Link class="nav-link" :href="route('agent.orders.index')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Orders (agent)</span></Link>
+        <li class="nav-item" v-if="$page.props.auth.user.role == 'Agent'">
+            <Link class="nav-link" :href="route('agent.orders.index')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Orders</span></Link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
             <Link class="nav-link" :href="route('orders.index')"><i class="fas fa-fw fa-tachometer-alt"></i><span>OrderList ( S Admin)</span></Link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="$page.props.auth.user.role == 'Driver'">
             <Link class="nav-link" :href="route('driver.orders.pending')"><i class="fas fa-fw fa-tachometer-alt"></i><span>Pending (driver)</span></Link>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item" v-if="$page.props.auth.user.role == 'Driver'">
             <Link class="nav-link" :href="route('driver.orders.myOrders')"><i class="fas fa-fw fa-tachometer-alt"></i><span>My orders (driver)</span></Link>
         </li>
 

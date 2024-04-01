@@ -42,7 +42,7 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/approve/{id}', [AgentController::class, 'approveApplication'])->name('agent.application.approve');
     });
 
-//Agent
+//Agent Orders
     Route::prefix('agent/orders')->group(function () {
         Route::get('/', [AgentOrdersController::class, 'index'])->name('agent.orders.index');
         Route::get('/add', [AgentOrdersController::class, 'add'])->name('agent.orders.add');
@@ -52,7 +52,9 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/processing/{id}', [OrderController::class, 'changeStatusToProcessing'])->name('orders.status.processing');
-        Route::get('/unassigned/shipped/{id}', [OrderController::class, 'changeStatusToUnAssignedShipped'])->name('orders.status.unAssignedShipped');
+        Route::get('/ready/shipped/{id}', [OrderController::class, 'changeStatusToReadyToShipped'])->name('orders.status.readyToShipped');
+        Route::get('/completed/{id}', [OrderController::class, 'changeStatusToCompleted'])->name('orders.status.completed');
+        
         
     });
 //Drivers
@@ -61,8 +63,8 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/pending', [DriverController::class, 'pendingOrders'])->name('driver.orders.pending');
         Route::get('/assign/me/{id}', [DriverController::class, 'assignToMyself'])->name('driver.orders.assignToMyself');
         Route::get('/assigned', [DriverController::class, 'myOrders'])->name('driver.orders.myOrders');
+        Route::get('/shop/delivered/{id}', [DriverController::class, 'deliveredToShop'])->name('driver.orders.shop.delivered');
         Route::get('/delivered/{id}', [DriverController::class, 'markAsdelivered'])->name('driver.orders.delivered');
-
     });
 
 

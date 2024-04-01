@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamp('assigned_at')->nullable();
             $table->timestamp('completed_at')->nullable();
-            $table->enum('status', ['Pending', 'Assigned', 'Processing', 'unAssignedShipped', 'Shipped', 'Delivered', 'Cancelled'])->default('Pending');
+            $table->enum('status', ['pending', 'assinged_towards_shop', 'delivered_to_shop', 'processing', 'ready_to_shipped', 'assinged_towards_client', 'delivered_to_client', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

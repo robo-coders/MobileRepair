@@ -22,23 +22,33 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $order->status = "Processing";
         $order->save();
-        
-        $order->orderAssignments()->update(['status' => 'Processing']);
-        $order->save();
+
         return back();
     }
 
-    public function changeStatusToUnAssignedShipped($id)
+    public function changeStatusToReadyToShipped($id)
     {
-        Assignment::Create([
-            'order_id' => $id,
-            'assigned_at' => now(),
-            'status' => 'unAssignedShipped',
-        ]);
-
         $order = Order::findOrFail($id);
-        $order->status = "unAssignedShipped";
+        $order->status = "ready_to_shipped";
         $order->save();
+        
         return back();
+    }
+
+    public function changeStatusToCompleted($id)
+    {
+        return $id;
+        // $order = Order::findOrFail($id);
+        // $order->status = 'completed';
+        // $order->save();
+
+        // $assignment = Assignment::where('order_id', $order->id)
+        //         ->where('status', 'delivered_to_client')
+        //         ->first();
+        // $assignment->status = 'complete';
+        // $assignment->completed_at = now();
+        // $assignment->save();
+
+        // return back();
     }
 }
