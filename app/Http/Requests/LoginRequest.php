@@ -23,10 +23,7 @@ class LoginRequest extends FormRequest
     {
         return [
             "email" => "exists:users,email",
-            "password" => "required|string|max:15",
-            "fcmToken" => "required|string|max:200",
-            "applicationVersion" => "required|numeric",
-            "device" => "required"
+            "password" => "required|string|max:15"
         ];
     }
 }

@@ -15,7 +15,6 @@ use App\Http\Controllers\Api\AuthenticationController;
 |
 */
 
-Route::post('/customer/check', [AuthenticationController::class, 'check']);
 Route::post('/customer/login', [AuthenticationController::class, 'login']);
 Route::post('/customer/register', [AuthenticationController::class, 'register']);
 
