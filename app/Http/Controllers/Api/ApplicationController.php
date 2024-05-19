@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class ApplicationController extends Controller
 {
-    public function dashboard () {
+    public function dashboard (Request $request) {
 
         $pendingOrders = Order::where("user_id", Auth::id())->where("status", "Pending")->count();
         $assignedOrders = Order::where("user_id", Auth::id())->where("status", "Assigned")->count();

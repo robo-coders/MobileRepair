@@ -12,7 +12,7 @@ class Controller extends BaseController
 
     public function __construct() {
         request()->validate([
-            "email" => "required|email|max:50"
+            // "email" => "required|email|max:50"
         ]);
     }
 }
