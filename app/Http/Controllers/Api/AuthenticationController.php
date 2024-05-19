@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterationRequest;
-use App\Models\Device;
 use App\Models\User;
 use Carbon\Carbon;
-use ErrorException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller

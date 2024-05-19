@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\AuthenticationController;
 
 /*
@@ -18,9 +18,6 @@ use App\Http\Controllers\Api\AuthenticationController;
 Route::post('/customer/login', [AuthenticationController::class, 'login']);
 Route::post('/customer/register', [AuthenticationController::class, 'register']);
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/customer/dashboard', [ApplicationController::class, 'dashboard']);
 });
-
-

@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Error;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -23,10 +24,6 @@ class Handler extends ExceptionHandler
 
     public function register(): void
     {
-        // $this->reportable(function (Throwable $e) {
-        //     //
-        // });
-
         $this->renderable(function (Exception $e, $request) {
             if ($request->is('api/*') && $request->wantsJson()) {
                 return response()->error(($e->getCode() != 0) ? $e->getCode() : 500, (!empty($e->getMessage())) ? $e->getMessage() : "General Exception", $e->getTrace());
