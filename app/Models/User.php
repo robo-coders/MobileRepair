@@ -29,6 +29,7 @@ class User extends Authenticatable
         'password',
         'role',
         'status',
+        'profile_photo_path',
     ];
 
     /**
@@ -58,7 +59,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        'profile_photo',
     ];
 
     public function agentApplications()
@@ -69,5 +70,10 @@ class User extends Authenticatable
     public function userAssignments()
     {
         return $this->hasMany(Assignment::class);
+    }
+    
+    public function getProfilePhotoAttribute()
+    {
+        return "https://ui-avatars.com/api/?name=". $this->name ."&color=FFFFFF&background=EC5624";
     }
 }
