@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,8 @@ class Order extends Model
         'total_amount',
         'status'
     ];
+
+    protected $appends = ["order_date"];
 
     public function order_parts()
     {
@@ -39,4 +42,8 @@ class Order extends Model
         return $this->hasOne(Assignment::class);
     }
     
+    public function getOrderDateAttribute()
+    {
+        return Carbon::parse($this->created_at)->toDayDateTimeString();
+    }
 }
