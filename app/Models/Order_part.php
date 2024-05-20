@@ -20,4 +20,9 @@ class Order_part extends Model
         return $this->belongsTo(Order::class);
     }
     
+    public function part()
+    {
+        return $this->belongsTo(Product_part::class, "part_id");
+    }
+    
 }
