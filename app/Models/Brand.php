@@ -17,7 +17,7 @@ class Brand extends Model
         'status'
     ];
 
-    protected $appends = ["icon_url"];
+    protected $appends = ["image"];
 
     protected static function boot()
     {
@@ -37,7 +37,7 @@ class Brand extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function getIconUrlAttribute()
+    public function getImageAttribute()
     {
         return [
             "uri" => "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.jpg"
