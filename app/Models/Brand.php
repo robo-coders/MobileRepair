@@ -39,6 +39,7 @@ class Brand extends Model
 
     public function getIconUrlAttribute()
     {
-        return url($this->path);
+        return "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.jpg";
+        // return url($this->path);
     }
 }
