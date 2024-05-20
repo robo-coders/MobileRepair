@@ -19,9 +19,10 @@ class AuthenticationController extends Controller
             "password"
         ])
         ->whereEmail($request->email)
+        ->whereRole("customer")
         ->first();
 
-        if (!Hash::check($request->password, $customer->password)) {
+        if (!$customer || !Hash::check($request->password, $customer->password)) {
             return response()->success(403, "Invalid Login Credentials!");
         }
 

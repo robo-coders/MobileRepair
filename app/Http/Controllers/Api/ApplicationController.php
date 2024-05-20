@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\Product_part;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,6 +56,30 @@ class ApplicationController extends Controller
 
         return response()->success(200, "Success!", [
             "order" => $order
+        ]);
+    }
+    
+    public function fetchBrands() {
+        $brands = Brand::whereStatus("active")->orderBy("name", "asc")->get();
+
+        return response()->success(200, "Success!", [
+            "brands" => $brands
+        ]);
+    }
+
+    public function fetchBrandProducts($brandId) {
+        $products = Product::whereStatus("available")->where("brand_id", $brandId)->orderBy("name", "asc")->get();
+
+        return response()->success(200, "Success!", [
+            "products" => $products
+        ]);
+    }
+    
+    public function fetchProductParts($productId) {
+        $parts = Product_part::whereStatus("active")->where("product_id", $productId)->orderBy("name", "asc")->get();
+
+        return response()->success(200, "Success!", [
+            "parts" => $parts
         ]);
     }
 }
