@@ -19,6 +19,7 @@ class AuthenticationController extends Controller
             "password"
         ])
         ->whereEmail($request->email)
+        ->whereStatus("active")
         ->whereRole("customer")
         ->first();
 
