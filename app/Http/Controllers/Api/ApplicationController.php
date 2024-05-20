@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 
 class ApplicationController extends Controller
 {
-    public function dashboard (Request $request) {
-
+    public function dashboard () {
         $pendingOrders = Order::where("user_id", Auth::id())->where("status", "Pending")->count();
         $assignedOrders = Order::where("user_id", Auth::id())->where("status", "Assigned")->count();
         $processingOrders = Order::where("user_id", Auth::id())->where("status", "Processing")->count();
@@ -28,6 +27,20 @@ class ApplicationController extends Controller
             "deliveredOrders" => $deliveredOrders,
             "cancelledOrders" => $cancelledOrders,
             "recentOrders" => $recentOrders,
+        ]);
+    }
+
+    public function getOrders(Request $request) {
+        $orders = Order::with(["product", "brand"])->where("user_id", Auth::id());
+
+        if ($request->has("order_number") && $request->order_number) {
+            $orders = $orders->where("order_number", $request->order_number);
+        }
+
+        $orders = $orders->latest()->get();
+
+        return response()->success(200, "Success!", [
+            "orders" => $orders
         ]);
     }
 }
