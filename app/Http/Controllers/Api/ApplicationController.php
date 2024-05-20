@@ -33,8 +33,12 @@ class ApplicationController extends Controller
     public function getOrders(Request $request) {
         $orders = Order::with(["product", "brand"])->where("user_id", Auth::id());
 
+        if ($request->has("order_status") && $request->order_status) {
+            $orders = $orders->where("status", $request->order_status);
+        }
+
         if ($request->has("order_number") && $request->order_number) {
-            $orders = $orders->where("order_number", $request->order_number);
+            $orders = $orders->where("order_number", "LIKE", "%" . $request->order_number . "%");
         }
 
         $orders = $orders->latest()->get();
