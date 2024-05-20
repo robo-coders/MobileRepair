@@ -105,6 +105,8 @@ class ApplicationController extends Controller
             'amount' => $part->customer_price
         ]);
 
-        return response()->success(200, "Success!");
+        return response()->success(200, "Success!", [
+            "order" => $order
+        ]);
     }
 }
