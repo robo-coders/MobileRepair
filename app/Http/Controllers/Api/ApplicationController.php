@@ -49,7 +49,7 @@ class ApplicationController extends Controller
     }
     
     public function getOrderDetails($id) {
-        $order = Order::with(["product", "brand", "order_parts"])->where("user_id", Auth::id())->where("id", $id)->first();
+        $order = Order::with(["product", "brand", "order_parts", "order_parts.part"])->where("user_id", Auth::id())->where("id", $id)->first();
 
         return response()->success(200, "Success!", [
             "order" => $order
