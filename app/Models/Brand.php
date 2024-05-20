@@ -17,6 +17,8 @@ class Brand extends Model
         'status'
     ];
 
+    protected $appends = ["icon_url"];
+
     protected static function boot()
     {
         parent::boot();
@@ -35,12 +37,8 @@ class Brand extends Model
         return $this->hasMany(Product::class);
     }
 
-    // protected $appends = [
-    //     'created_date'
-    // ];
-
-    // public function getCreatedDateAttribute()
-    // {
-    //     return Carbon::parse($this->attributes['created_at'])->toDayDateTimeString();
-    // }
+    public function getIconUrlAttribute()
+    {
+        return url($this->path);
+    }
 }

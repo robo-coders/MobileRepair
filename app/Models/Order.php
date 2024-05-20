@@ -15,6 +15,7 @@ class Order extends Model
         'order_number',
         'brand_id',
         'product_id',
+        'delivery_address',
         'description',
         'total_amount',
         'status'

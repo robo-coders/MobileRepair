@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PlaceOrderRequest;
 use App\Models\Brand;
 use App\Models\Order;
+use App\Models\Order_part;
 use App\Models\Product;
 use App\Models\Product_part;
 use Illuminate\Http\Request;
@@ -81,5 +83,28 @@ class ApplicationController extends Controller
         return response()->success(200, "Success!", [
             "parts" => $parts
         ]);
+    }
+    
+    public function placeOrder(PlaceOrderRequest $placeOrderRequest) {
+        $part = Product_part::find($placeOrderRequest->part_id);
+
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'order_number' => \Str::random(8),
+            'brand_id' => $placeOrderRequest->brand_id,
+            'product_id' => $placeOrderRequest->product_id,
+            'delivery_address' => $placeOrderRequest->delivery_address,
+            'description' => $placeOrderRequest->description,
+            'total_amount' => $part->customer_price,
+            'status' => "Pending"
+        ]);
+
+        Order_part::create([
+            'order_id' => $order->id,
+            'part_id' => $placeOrderRequest->part_id,
+            'amount' => $part->customer_price
+        ]);
+
+        return response()->success(200, "Success!");
     }
 }
