@@ -21,4 +21,5 @@ Route::post('/customer/register', [AuthenticationController::class, 'register'])
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/customer/dashboard', [ApplicationController::class, 'dashboard']);
     Route::post('/customer/orders', [ApplicationController::class, 'getOrders']);
+    Route::post('/customer/orders-details/{id}', [ApplicationController::class, 'getOrderDetails']);
 });
