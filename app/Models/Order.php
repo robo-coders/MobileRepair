@@ -28,6 +28,11 @@ class Order extends Model
         return $this->hasMany(Order_part::class);
     }
 
+    public function address()
+    {
+        return $this->belongsTo(Address::class, "delivery_address");
+    }
+    
     public function brand()
     {
         return $this->belongsTo(Brand::class);
