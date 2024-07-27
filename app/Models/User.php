@@ -72,6 +72,11 @@ class User extends Authenticatable
         return $this->hasMany(Assignment::class);
     }
     
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+    
     public function getProfilePhotoAttribute()
     {
         return "https://ui-avatars.com/api/?name=". $this->name ."&color=FFFFFF&background=EC5624";

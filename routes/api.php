@@ -25,5 +25,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/fetch-brands', [ApplicationController::class, 'fetchBrands']);
     Route::post('/fetch-products/{brand_id}', [ApplicationController::class, 'fetchBrandProducts']);
     Route::post('/fetch-product-parts/{product_id}', [ApplicationController::class, 'fetchProductParts']);
+    Route::post('/fetch-addresses', [ApplicationController::class, 'fetchCustomerAddresses']);
+    Route::post('/save-address', [ApplicationController::class, 'saveCustomerAddress']);
+    Route::post('/delete-address', [ApplicationController::class, 'deleteCustomerAddress']);
     Route::post('/place-order', [ApplicationController::class, 'placeOrder']);
 });

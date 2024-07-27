@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddNewAddressRequest;
+use App\Http\Requests\DeleteNewAddressRequest;
 use App\Http\Requests\PlaceOrderRequest;
+use App\Models\Address;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Order_part;
@@ -107,6 +110,36 @@ class ApplicationController extends Controller
 
         return response()->success(200, "Success!", [
             "order" => $order
+        ]);
+    }
+
+    public function fetchCustomerAddresses() {
+        return response()->success(200, "Success!", [
+            "addresses" => Auth::user()->addresses
+        ]);
+    }
+
+    public function saveCustomerAddress(AddNewAddressRequest $addNewAddressRequest) {
+        Address::updateOrcreate([
+            "id" => $addNewAddressRequest->address_id
+        ], [
+            "user_id" => Auth::id(),
+            "title" => $addNewAddressRequest->title,
+            "address" => $addNewAddressRequest->address,
+            "phone" => $addNewAddressRequest->phone,
+            "category" => $addNewAddressRequest->category
+        ]);
+
+        return response()->success(200, "Success!", [
+            "addresses" => Auth::user()->addresses
+        ]);
+    }
+    
+    public function deleteCustomerAddress(DeleteNewAddressRequest $deleteNewAddressRequest) {
+        Address::whereId($deleteNewAddressRequest->address_id)->delete();
+
+        return response()->success(200, "Success!", [
+            "addresses" => Auth::user()->addresses
         ]);
     }
 }
