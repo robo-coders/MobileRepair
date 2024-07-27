@@ -57,8 +57,8 @@ class ApplicationController extends Controller
         ]);
     }
     
-    public function getOrderDetails($id) {
-        $order = Order::with(["address", "product", "brand", "order_parts", "order_parts.part"])->where("user_id", Auth::id())->where("id", $id)->first();
+    public function getOrderDetails($order_number) {
+        $order = Order::with(["address", "product", "brand", "order_parts", "order_parts.part"])->where("user_id", Auth::id())->where("order_number", $order_number)->first();
 
         return response()->success(200, "Success!", [
             "order" => $order
