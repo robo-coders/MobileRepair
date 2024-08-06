@@ -13,6 +13,7 @@ use App\Models\Order;
 use App\Models\Order_part;
 use App\Models\Product;
 use App\Models\Product_part;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -103,11 +104,22 @@ class ApplicationController extends Controller
             'status' => "Pending"
         ]);
 
-        Order_part::create([
+        $orderPart = Order_part::create([
             'order_id' => $order->id,
             'part_id' => $placeOrderRequest->part_id,
             'amount' => $part->customer_price
         ]);
+
+        if ($placeOrderRequest->generate_invoice == "yes") {
+            $pdf = Pdf::loadView('pdf/invoice', [
+                "part" => $part,
+                "order" => $order,
+                "orderPart" => $orderPart,
+                "user" => Auth::user()
+            ]);
+
+            return $pdf->stream();
+        }
 
         return response()->success(200, "Success!", [
             "order" => $order
