@@ -170,8 +170,7 @@
             </tr>
             <tr>
                 <td>
-                    <!-- <img height="auto" width="75" src="{{ $order->brand->image }}" alt=""> -->
-                    {{ $order->brand->image }}
+                    <img height="auto" width="75" src="{{ $order->brand->image }}" alt="">
                 </td>
                 <td>{{ strtoupper($order->brand->name) }}</td>
                 <td>{{ ucwords($order->product->name) }}</td>
