@@ -19,6 +19,7 @@ class Order extends Model
         'description',
         'tax_percent',
         'tax_amount',
+        'sub_total_amount',
         'total_amount',
         'invoice',
         'status'

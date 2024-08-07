@@ -103,6 +103,7 @@ class ApplicationController extends Controller
             'description' => $placeOrderRequest->description,
             'tax_percent' => $placeOrderRequest->tax_percent,
             'tax_amount' => $placeOrderRequest->tax_amount,
+            'sub_total_amount' => $part->customer_price,
             'total_amount' => $placeOrderRequest->total,
             'status' => "Pending"
         ]);
