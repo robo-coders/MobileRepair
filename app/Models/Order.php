@@ -18,6 +18,7 @@ class Order extends Model
         'delivery_address',
         'description',
         'total_amount',
+        'invoice',
         'status'
     ];
 

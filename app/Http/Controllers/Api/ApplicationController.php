@@ -16,6 +16,7 @@ use App\Models\Product_part;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -118,7 +119,12 @@ class ApplicationController extends Controller
                 "user" => Auth::user()
             ]);
 
-            return $pdf->stream();
+            $name = Auth::id() . "_" . $order->order_number;
+            $path = "public/invoices/$name.pdf";
+            Storage::put($path, $pdf->output());
+
+            $order->invoice = str_replace("public", "storage", $path);
+            $order->save();
         }
 
         return response()->success(200, "Success!", [
