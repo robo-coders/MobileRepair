@@ -212,7 +212,7 @@
                 <td></td>
                 <td></td>
                 <td class="grandtotal-label">Grand Total</td>
-                <td class="grandtotal-amount">€ {{ $part->total_amount }}</td>
+                <td class="grandtotal-amount">€ {{ $order->total_amount }}</td>
             </tr>
         </table>
         <table class="footer">
