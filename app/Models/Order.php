@@ -22,7 +22,7 @@ class Order extends Model
         'status'
     ];
 
-    protected $appends = ["order_date"];
+    protected $appends = ["order_date", "invoice_url"];
 
     public function order_parts()
     {
@@ -52,5 +52,15 @@ class Order extends Model
     public function getOrderDateAttribute()
     {
         return Carbon::parse($this->created_at)->toDayDateTimeString();
+    }
+
+    public function getInvoiceUrlAttribute()
+    {
+        if ($this->invoice) {
+            return url($this->invoice);
+        }
+        else {
+            return "";
+        }
     }
 }
