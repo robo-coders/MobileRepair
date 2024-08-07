@@ -170,7 +170,6 @@
             </tr>
             <tr>
                 <td>
-                <!-- {{ $order->brand->image }} -->
                     <img height="auto" width="50" src="{{ $order->brand->image }}" alt="">
                 </td>
                 <td>{{ strtoupper($order->brand->name) }}</td>
@@ -184,8 +183,24 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td class="subtotal-label">Tax (%)</td>
+                <td class="subtotal-amount">€ {{ $order->tax_percent }}</td>
+            </tr>
+            <tr class="total">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="subtotal-label">Tax Amount</td>
+                <td class="subtotal-amount">€ {{ $order->tax_amount }}</td>
+            </tr>
+            <tr class="total">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td class="subtotal-label">Subtotal</td>
-                <td class="subtotal-amount">€ {{ $part->customer_price }}</td>
+                <td class="subtotal-amount">€ {{ $order->sub_total_amount }}</td>
             </tr>
             <tr class="total">
                 <td></td>
@@ -193,7 +208,7 @@
                 <td></td>
                 <td></td>
                 <td class="grandtotal-label">Grand Total</td>
-                <td class="grandtotal-amount">€ {{ $part->customer_price }}</td>
+                <td class="grandtotal-amount">€ {{ $part->total }}</td>
             </tr>
         </table>
         <table class="footer">

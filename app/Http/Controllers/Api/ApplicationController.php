@@ -114,21 +114,21 @@ class ApplicationController extends Controller
             'amount' => $part->customer_price
         ]);
 
-        // if ($placeOrderRequest->generate_invoice == "true") {
-        //     $pdf = Pdf::loadView('pdf/invoice', [
-        //         "part" => $part,
-        //         "order" => $order,
-        //         "orderPart" => $orderPart,
-        //         "user" => Auth::user()
-        //     ]);
+        if ($placeOrderRequest->generate_invoice == "true") {
+            $pdf = Pdf::loadView('pdf/invoice', [
+                "part" => $part,
+                "order" => $order,
+                "orderPart" => $orderPart,
+                "user" => Auth::user()
+            ]);
 
-        //     $name = Auth::id() . "_" . $order->order_number;
-        //     $path = "public/invoices/$name.pdf";
-        //     Storage::put($path, $pdf->output());
+            $name = Auth::id() . "_" . $order->order_number;
+            $path = "public/invoices/$name.pdf";
+            Storage::put($path, $pdf->output());
 
-        //     $order->invoice = str_replace("public", "storage", $path);
-        //     $order->save();
-        // }
+            $order->invoice = str_replace("public", "storage", $path);
+            $order->save();
+        }
 
         return response()->success(200, "Success!", [
             "order" => $order
