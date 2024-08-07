@@ -17,6 +17,8 @@ class Order extends Model
         'product_id',
         'delivery_address',
         'description',
+        'tax_percent',
+        'tax_amount',
         'total_amount',
         'invoice',
         'status'
