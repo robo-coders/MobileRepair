@@ -111,7 +111,7 @@ class ApplicationController extends Controller
             'amount' => $part->customer_price
         ]);
 
-        if ($placeOrderRequest->generate_invoice == "yes") {
+        if ($placeOrderRequest->generate_invoice == "true") {
             $pdf = Pdf::loadView('pdf/invoice', [
                 "part" => $part,
                 "order" => $order,

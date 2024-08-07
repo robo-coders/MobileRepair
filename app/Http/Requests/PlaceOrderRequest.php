@@ -27,7 +27,7 @@ class PlaceOrderRequest extends FormRequest
             "part_id" => "exists:product_parts,id",
             "delivery_address" => "required|integer|exists:addresses,id",
             "description" => "nullable|string",
-            "generate_invoice" => "required|in:yes,no"
+            "generate_invoice" => "required|in:true,false"
         ];
     }
 }
