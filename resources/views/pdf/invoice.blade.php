@@ -178,13 +178,15 @@
                 <td>€ {{ $part->customer_price }}</td>
                 <td>€ {{ $part->customer_price }}</td>
             </tr>
+
+            @if($order->tax_amount && $order->tax_amount > 0)
             <tr class="total">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="subtotal-label">Tax (%)</td>
-                <td class="subtotal-amount">€ {{ $order->tax_percent }}</td>
+                <td class="subtotal-label">Tax Percentage</td>
+                <td class="subtotal-amount">{{ $order->tax_percent }}%</td>
             </tr>
             <tr class="total">
                 <td></td>
@@ -194,6 +196,8 @@
                 <td class="subtotal-label">Tax Amount</td>
                 <td class="subtotal-amount">€ {{ $order->tax_amount }}</td>
             </tr>
+            @endif
+
             <tr class="total">
                 <td></td>
                 <td></td>
@@ -208,7 +212,7 @@
                 <td></td>
                 <td></td>
                 <td class="grandtotal-label">Grand Total</td>
-                <td class="grandtotal-amount">€ {{ $part->total }}</td>
+                <td class="grandtotal-amount">€ {{ $part->total_amount }}</td>
             </tr>
         </table>
         <table class="footer">
