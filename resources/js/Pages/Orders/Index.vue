@@ -21,7 +21,7 @@
                         <th scope="col">Part</th>
                         <th scope="col" width="15%">Description</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Type</th>
+                        <!-- <th scope="col">Type</th> -->
                         <th scope="col">Created at</th>
                         <th scope="col">Actions</th>
                         </tr>
@@ -31,7 +31,7 @@
                             <th scope="row">{{ index + 1 }}</th>
                             <td>{{ order.brand?.name }}</td>
                             <td>{{ order.product?.name }}</td>
-                            <td>{{ order.product_part?.name }}</td>
+                            <td>{{ (order?.order_parts[0]?.part?.name) ?? "---" }}</td>
                             <td>{{ order.description }}</td>
                             <td>
                                 <span v-if="order.status === 'Pending'" class="badge badge-warning">Pending</span>
@@ -41,8 +41,8 @@
                                 <span v-if="order.status === 'Delivered'" class="badge badge-success">Delivered</span>
                                 <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
                             </td>
-                            <td> --- </td>
-                            <td> {{order.created_at}} </td>
+                            <!-- <td> --- </td> -->
+                            <td> {{order.order_date}} </td>
                             <td>
                                 <div class="btn-group">
                                     <Link v-if="order.status === 'delivered_to_shop'" class="btn btn-sm btn-primary" :href="route('orders.status.processing', order.id)">Start Processing</Link>

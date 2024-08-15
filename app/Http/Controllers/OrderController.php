@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('order_parts', 'brand', 'product')->latest()->get();
+        $orders = Order::with('order_parts', 'order_parts.part', 'brand', 'product', 'user')->latest()->get();
 
         return Inertia::render('Orders/Index', [
             'orders' => $orders,
