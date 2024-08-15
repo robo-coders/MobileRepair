@@ -22,6 +22,7 @@
                         <th scope="col" width="15%">Description</th>
                         <th scope="col">Status</th>
                         <th scope="col">Type</th>
+                        <th scope="col">Created at</th>
                         <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -30,25 +31,26 @@
                             <th scope="row">{{ index + 1 }}</th>
                             <td>{{ order.brand?.name }}</td>
                             <td>{{ order.product?.name }}</td>
-                            <td>{{ order.description }}</td>
+                            <td>{{ order.product_part?.name }}</td>
                             <td>{{ order.description }}</td>
                             <td>
-                            <span v-if="order.status === 'pending'" class="badge badge-primary"> Pending </span>
-                            <span v-if="order.status === 'assinged_towards_shop'" class="badge badge-primary"> Assigned. Collect | Deliver Shop </span>
-                            <span v-if="order.status === 'ready_to_shipped'" class="badge badge-info">Awaiting Driver to Deliver</span>
-                            <span v-if="order.status === 'assinged_towards_client'" class="badge badge-primary"> Assigned. Deliver to client </span>
-                            <span v-if="order.status === 'delivered_to_shop'" class="badge badge-success"> Order delivered to shop </span>
-                            <span v-if="order.status === 'delivered_to_client'" class="badge badge-success"> Order delivered to client </span>
+                                <span v-if="order.status === 'Pending'" class="badge badge-warning">Pending</span>
+                                <span v-if="order.status === 'Assigned'" class="badge badge-primary">Assigned</span>
+                                <span v-if="order.status === 'Processing'" class="badge badge-info">Processing</span>
+                                <span v-if="order.status === 'Shipped'" class="badge badge-primary">Shipped</span>
+                                <span v-if="order.status === 'Delivered'" class="badge badge-success">Delivered</span>
+                                <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
                             </td>
                             <td> --- </td>
+                            <td> {{order.created_at}} </td>
                             <td>
-                            <div class="btn-group">
-                                <Link v-if="order.status === 'delivered_to_shop'" class="btn btn-sm btn-primary" :href="route('orders.status.processing', order.id)">Start Processing</Link>
-        
-                                <Link v-if="order.status === 'processing'" class="btn btn-sm btn-success" :href="route('orders.status.readyToShipped', order.id)">Ready to Shipped</Link>
-        
-                                <Link v-if="order.status === 'delivered_to_client'" class="btn btn-sm btn-success" :href="route('orders.status.completed',order.id)">Mark as Completed</Link>
-                            </div>
+                                <div class="btn-group">
+                                    <Link v-if="order.status === 'delivered_to_shop'" class="btn btn-sm btn-primary" :href="route('orders.status.processing', order.id)">Start Processing</Link>
+            
+                                    <Link v-if="order.status === 'processing'" class="btn btn-sm btn-success" :href="route('orders.status.readyToShipped', order.id)">Ready to Shipped</Link>
+            
+                                    <Link v-if="order.status === 'delivered_to_client'" class="btn btn-sm btn-success" :href="route('orders.status.completed',order.id)">Mark as Completed</Link>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

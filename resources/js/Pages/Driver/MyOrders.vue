@@ -36,17 +36,21 @@
                   <td>{{ order.order.description }}</td>
                   <td>{{ order.order.total_amount }}</td>
                   <td>{{ order.assigned_at }}</td>
-                  <td> {{ order.completed_at }}</td>
                   <td>
-                    <span v-if="order.status === 'assinged_towards_shop'" class="badge badge-primary"> Assigned. Collect | Deliver Shop </span>
-                    <span v-if="order.status === 'ready_to_shipped'" class="badge badge-info">Awaiting Driver to Deliver</span>
-                    <span v-if="order.status === 'assinged_towards_client'" class="badge badge-primary"> Assigned. Deliver to client </span>
-                    <span v-if="order.status === 'delivered_to_shop'" class="badge badge-success"> Order delivered to shop </span>
-                    <span v-if="order.status === 'delivered_to_client'" class="badge badge-success"> Order delivered to client </span>
+                    <span v-if="order.completed_at">{{ order.completed_at }}</span>
+                    <span v-else>Null</span>
+                  </td>
+                  <!-- <td> {{ order.completed_at }}</td> -->
+                  <td>
+                    <span v-if="order.status === 'Assigned'" class="badge badge-primary">Assigned</span>
+                    <span v-if="order.status === 'Processing'" class="badge badge-info">Processing</span>
+                    <span v-if="order.status === 'Shipped'" class="badge badge-primary">Shipped</span>
+                    <span v-if="order.status === 'Delivered'" class="badge badge-success">Delivered</span>
+                    <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
                   </td>
                   <td>
-                    <Link v-if="order.status === 'assinged_towards_shop'" class="btn btn-sm btn-success" :href="route('driver.orders.shop.delivered', order.order.id)">Shop Delivery Confirmed</Link>
-                    <Link v-if="order.status === 'assinged_towards_client'" class="btn btn-sm btn-success" :href="route('driver.orders.delivered', order.order.id)">Mark as Delivered</Link>
+                    <Link v-if="order.status === 'Assigned'" class="btn btn-sm btn-success" :href="route('driver.orders.shop.delivered', order.order.id)">Shop Delivery Confirmed</Link>
+                    <Link v-if="order.status === 'Processing'" class="btn btn-sm btn-success" :href="route('driver.orders.delivered', order.order.id)">Mark as Delivered</Link>
                   </td>
                 </tr>
               </tbody>

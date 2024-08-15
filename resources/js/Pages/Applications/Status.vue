@@ -87,6 +87,7 @@ export default {
         return {
             applicationStatusForm : {
                 application_id : "",
+                user_id: "",
                 status : "",
                 reason : ""
             }
@@ -94,15 +95,30 @@ export default {
     },
     methods: {
         openModal(status) {
-            this.applicationStatusForm.application_id = this.applications[0].id
-            this.applicationStatusForm.status = status;
-            this.applicationStatusForm.reason = "";
+            if (this.applications.length > 0) {
+                this.applicationStatusForm.application_id = this.applications[0].id;
+                this.applicationStatusForm.user_id = this.applications[0].user_id;
+                this.applicationStatusForm.status = status;
+                this.applicationStatusForm.reason = "";
 
-            $('#changeApplicationStatusModal').modal('show');
+                $('#changeApplicationStatusModal').modal('show');
+            } else {
+                console.error('No applications found');
+            }
         },
 
+        // openModal(status) {
+        //     this.applicationStatusForm.application_id = this.applications[0].id
+        //     this.applicationStatusForm.user_id = this.applications[0].user_id;
+
+        //     this.applicationStatusForm.status = status;
+        //     this.applicationStatusForm.reason = "";
+
+        //     $('#changeApplicationStatusModal').modal('show');
+        // },
+
         changeApplicationStatus() {
-                this.$inertia.post(route("agent.status.approve", { id: this.$page.props.applications[0].id }), this.applicationStatusForm);
+                this.$inertia.post(route("agent.status.approve", { id: this.$page.props.applications[0].id }, { user_id: this.$page.props.applications[0].user_id }), this.applicationStatusForm);
 
 
         },

@@ -29,17 +29,19 @@
               <tr v-for="(order, index) in orders" :key="order.id">
                 <th scope="row">{{ index + 1 }}</th>
                 <!-- <td>{{ order.brand.name }}</td> -->
-                <td> --- </td>
+                <td>{{ order.brand?.name }}</td>
+                <td>{{ order.product?.name }}</td>
                 <td> --- </td>
                 <td>{{ order.description }}</td>
                 <td>{{ order.total_amount }}</td>
                 <td>{{ order.created_at }}</td>
                 <td>
-                  <span v-if="order.status === 'assinged_towards_shop'" class="badge badge-primary"> Assigned. Collect | Deliver Shop </span>
-                    <span v-if="order.status === 'assinged_towards_client'" class="badge badge-primary"> Assigned. Deliver to client </span>
-                    <span v-if="order.status === 'delivered_to_shop'" class="badge badge-success"> Order delivered to shop </span>
-                    <span v-if="order.status === 'ready_to_shipped'" class="badge badge-info">Awaiting Driver to Deliver</span>
-                    <span v-if="order.status === 'delivered_to_client'" class="badge badge-success"> Order delivered to client </span>
+                  <span v-if="order.status === 'Pending'" class="badge badge-warning">Pending</span>
+                  <span v-if="order.status === 'Assigned'" class="badge badge-primary">Assigned</span>
+                  <span v-if="order.status === 'Processing'" class="badge badge-info">Processing</span>
+                  <span v-if="order.status === 'Shipped'" class="badge badge-primary">Shipped</span>
+                  <span v-if="order.status === 'Delivered'" class="badge badge-success">Delivered</span>
+                  <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
                 </td>
                 <td>
                  ---

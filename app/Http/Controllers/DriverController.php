@@ -28,27 +28,28 @@ class DriverController extends Controller
     {
         $order = Order::findOrFail($id);
         
-        if ($order->status == 'pending') {
-            $order->status = 'assinged_towards_shop';
+        if ($order->status == 'Pending') {
+            $order->status = 'Assigned';
             $order->save();
 
             Assignment::create([
                 'order_id' => $id,
                 'user_id' => auth()->id(),
                 'assigned_at' => now(),
-                'status' => 'assinged_towards_shop',
+                'status' => 'Assigned',
             ]);
-        } else {
-            $order->status = 'assinged_towards_client';
-            $order->save();
+        } 
+        // else {
+        //     $order->status = 'assinged_towards_client';
+        //     $order->save();
 
-            Assignment::create([
-                'order_id' => $id,
-                'user_id' => auth()->id(),
-                'assigned_at' => now(),
-                'status' => 'assinged_towards_client',
-            ]);
-        }
+        //     Assignment::create([
+        //         'order_id' => $id,
+        //         'user_id' => auth()->id(),
+        //         'assigned_at' => now(),
+        //         'status' => 'assinged_towards_client',
+        //     ]);
+        // }
 
         return back();
     }
@@ -56,17 +57,17 @@ class DriverController extends Controller
     public function deliveredToShop($id)
     {
         $order = Order::findOrFail($id);
-        $order->status = 'delivered_to_shop';
+        $order->status = 'Processing';
         $order->save();
 
         // $order->orderAssignments()->update(['status' => 'delivered_to_shop']);
         // $order->save();
 
         $assignment = Assignment::where('order_id', $order->id)
-                ->where('status', 'assinged_towards_shop')
+                ->where('status', 'Assigned')
                 ->first();
-        $assignment->status = 'delivered_to_shop';
-        $assignment->completed_at = now();
+        $assignment->status = 'Processing';
+        // $assignment->completed_at = now();
         $assignment->save();
 
         return back();
@@ -88,13 +89,13 @@ class DriverController extends Controller
     public function markAsdelivered($id)
     {
         $order = Order::findOrFail($id);
-        $order->status = 'delivered_to_client';
+        $order->status = 'Delivered';
         $order->save();
 
         $assignment = Assignment::where('order_id', $order->id)
-                ->where('status', 'assinged_towards_client')
+                ->where('status', 'Processing')
                 ->first();
-        $assignment->status = 'delivered_to_client';
+        $assignment->status = 'Delivered';
         $assignment->completed_at = now();
         $assignment->save();
 

@@ -37,7 +37,6 @@
                   <td>{{ order.created_at }}</td>
                   <td>
                     <span v-if="order.status === 'Pending'" class="badge badge-warning">{{ order.status }}</span>
-                    <span v-if="order.status === 'unAssignedShipped'" class="badge badge-info">Awaiting Driver</span>
                   </td>
                   <td>
                     <Link  class="btn btn-sm btn-primary" :href="route('driver.orders.assignToMyself', order.id)">

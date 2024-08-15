@@ -69,15 +69,16 @@ class AgentController extends Controller
 
     public function approveApplication($id)
     {
-        $user = User::findOrFail($id);
-        $user->status = 'Active';
-        $user->save();
+        return " Code Commented " ;
+        // $user = User::findOrFail($id);
+        // $user->status = 'Active';
+        // $user->save();
 
-        $user = $user->agentApplication;
-        $user->status = 'Active';
-        $user->save();
+        // $user = $user->agentApplication;
+        // $user->status = 'Active';
+        // $user->save();
         
-        return back();
+        // return back();
 
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agent_application;
 use App\Models\AgentApplication;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -30,6 +31,11 @@ class AgentApplicationController extends Controller
         $application->status = $request->status;
         $application->reason = $request->reason;
         $application->save();
+
+        $user = User::findOrFail($request->user_id);
+        $user->status = 'Active';
+        $user->save();
+
 
         return back();
     }
