@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddNewAddressRequest;
+use App\Http\Requests\DeleteNewAddressRequest;
 use App\Http\Requests\PlaceOrderRequest;
+use App\Models\Address;
+use App\Models\AddressCategory;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Order_part;
 use App\Models\Product;
 use App\Models\Product_part;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -54,7 +60,7 @@ class ApplicationController extends Controller
     }
     
     public function getOrderDetails($id) {
-        $order = Order::with(["product", "brand", "order_parts", "order_parts.part"])->where("user_id", Auth::id())->where("id", $id)->first();
+        $order = Order::with(["address", "product", "brand", "order_parts", "order_parts.part"])->where("user_id", Auth::id())->where("id", $id)->first();
 
         return response()->success(200, "Success!", [
             "order" => $order
@@ -95,18 +101,68 @@ class ApplicationController extends Controller
             'product_id' => $placeOrderRequest->product_id,
             'delivery_address' => $placeOrderRequest->delivery_address,
             'description' => $placeOrderRequest->description,
-            'total_amount' => $part->customer_price,
+            'tax_percent' => $placeOrderRequest->tax_percent,
+            'tax_amount' => $placeOrderRequest->tax_amount,
+            'sub_total_amount' => $part->customer_price,
+            'total_amount' => $placeOrderRequest->total,
             'status' => "Pending"
         ]);
 
-        Order_part::create([
+        $orderPart = Order_part::create([
             'order_id' => $order->id,
             'part_id' => $placeOrderRequest->part_id,
             'amount' => $part->customer_price
         ]);
 
+        if ($placeOrderRequest->generate_invoice == "true") {
+            $pdf = Pdf::loadView('pdf/invoice', [
+                "part" => $part,
+                "order" => $order,
+                "orderPart" => $orderPart,
+                "user" => Auth::user()
+            ]);
+
+            $name = Auth::id() . "_" . $order->order_number;
+            $path = "public/invoices/$name.pdf";
+            Storage::put($path, $pdf->output());
+
+            $order->invoice = str_replace("public", "storage", $path);
+            $order->save();
+        }
+
         return response()->success(200, "Success!", [
             "order" => $order
+        ]);
+    }
+
+    public function fetchCustomerAddresses() {
+        return response()->success(200, "Success!", [
+            "addresses" => Auth::user()->addresses,
+            "categories" => AddressCategory::all()
+        ]);
+    }
+
+    public function saveCustomerAddress(AddNewAddressRequest $addNewAddressRequest) {
+        Address::updateOrcreate([
+            "id" => $addNewAddressRequest->address_id
+        ], [
+            "user_id" => Auth::id(),
+            "title" => $addNewAddressRequest->title,
+            "address" => $addNewAddressRequest->address,
+            "phone" => $addNewAddressRequest->phone,
+            "category" => $addNewAddressRequest->category
+        ]);
+
+        return response()->success(200, "Success!", [
+            "addresses" => Auth::user()->addresses
+        ]);
+    }
+    
+    public function deleteCustomerAddress(DeleteNewAddressRequest $deleteNewAddressRequest) {
+        Address::whereId($deleteNewAddressRequest->address_id)->delete();
+
+        return response()->success(200, "Success!", [
+            "addresses" => Auth::user()->addresses
         ]);
     }
 }

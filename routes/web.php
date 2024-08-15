@@ -3,7 +3,6 @@
 use App\Http\Controllers\AgentApplicationController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AgentOrdersController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -11,11 +10,11 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\DriverController;
-use App\Http\Controllers\EmailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Hash;
 
 // Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
@@ -121,4 +120,9 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/delete/{id}', [PartController::class, 'delete'])->name('parts.delete');
     });
 
+});
+
+Route::get("/test-pdf", function () {
+    $pdf = Pdf::loadView('pdf/invoice');
+    return $pdf->stream();
 });

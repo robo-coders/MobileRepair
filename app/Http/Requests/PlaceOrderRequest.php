@@ -25,8 +25,12 @@ class PlaceOrderRequest extends FormRequest
             "brand_id" => "exists:brands,id",
             "product_id" => "exists:products,id",
             "part_id" => "exists:product_parts,id",
-            "delivery_address" => "required|string",
-            "description" => "nullable|string"
+            "description" => "nullable|string",
+            "delivery_address" => "required|integer|exists:addresses,id",
+            "tax_percent" => "required|numeric|min:0|max:100",
+            "tax_amount" => "required|numeric|min:0",
+            "total" => "required|numeric",
+            "generate_invoice" => "boolean"
         ];
     }
 }

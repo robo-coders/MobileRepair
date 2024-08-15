@@ -17,17 +17,26 @@ class Order extends Model
         'product_id',
         'delivery_address',
         'description',
+        'tax_percent',
+        'tax_amount',
+        'sub_total_amount',
         'total_amount',
+        'invoice',
         'status'
     ];
 
-    protected $appends = ["order_date"];
+    protected $appends = ["order_date", "invoice_url"];
 
     public function order_parts()
     {
         return $this->hasMany(Order_part::class);
     }
 
+    public function address()
+    {
+        return $this->belongsTo(Address::class, "delivery_address");
+    }
+    
     public function brand()
     {
         return $this->belongsTo(Brand::class);
@@ -47,5 +56,15 @@ class Order extends Model
     public function getOrderDateAttribute()
     {
         return Carbon::parse($this->created_at)->toDayDateTimeString();
+    }
+
+    public function getInvoiceUrlAttribute()
+    {
+        if ($this->invoice) {
+            return url($this->invoice);
+        }
+        else {
+            return "";
+        }
     }
 }
