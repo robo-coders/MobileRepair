@@ -30,7 +30,8 @@ class PlaceOrderRequest extends FormRequest
             "tax_percent" => "required|numeric|min:0|max:100",
             "tax_amount" => "required|numeric|min:0",
             "total" => "required|numeric",
-            "generate_invoice" => "boolean"
+            "generate_invoice" => "boolean",
+            "card_token" => "required|string",
         ];
     }
 }

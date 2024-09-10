@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\AuthenticationController;
+use Stripe\Stripe;
+use Stripe\StripeClient;
 
 /*
 |--------------------------------------------------------------------------

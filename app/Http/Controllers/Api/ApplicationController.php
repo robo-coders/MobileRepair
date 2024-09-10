@@ -16,7 +16,9 @@ use App\Models\Product_part;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Stripe\StripeClient;
 
 class ApplicationController extends Controller
 {
@@ -92,6 +94,18 @@ class ApplicationController extends Controller
     }
     
     public function placeOrder(PlaceOrderRequest $placeOrderRequest) {
+        try {
+            $stripe = new StripeClient(env('STRIPE_SECRET'));
+
+            $response = $stripe->charges->create([
+                'amount' => $placeOrderRequest->total * 100,
+                'currency' => 'usd',
+                'source' => $placeOrderRequest->card_token,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->error(500, "We were unable to process your payment. Please use an alternative card.", [], "403");
+        }
+        
         $part = Product_part::find($placeOrderRequest->part_id);
 
         $order = Order::create([
