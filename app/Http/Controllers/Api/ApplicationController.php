@@ -94,23 +94,28 @@ class ApplicationController extends Controller
     }
     
     public function placeOrder(PlaceOrderRequest $placeOrderRequest) {
+        $order_number = \Str::random(8);
+        $brand   = Brand::find($placeOrderRequest->brand_id);
+        $product = Product::find($placeOrderRequest->product_id);
+        $part    = Product_part::find($placeOrderRequest->part_id);
+
         try {
             $stripe = new StripeClient(env('STRIPE_SECRET'));
 
             $response = $stripe->charges->create([
                 'amount' => $placeOrderRequest->total * 100,
-                'currency' => 'usd',
+                'currency' => 'eur',
                 'source' => $placeOrderRequest->card_token,
+                'description' => "Order # $order_number | $brand->name $product->name $part->name | Reparapido",
+                'receipt_email' => (Auth::user()->email) ?? ""
             ]);
         } catch (\Throwable $th) {
             return response()->error(500, "We were unable to process your payment. Please use an alternative card.", [], "403");
         }
-        
-        $part = Product_part::find($placeOrderRequest->part_id);
 
         $order = Order::create([
             'user_id' => Auth::id(),
-            'order_number' => \Str::random(8),
+            'order_number' => $order_number,
             'brand_id' => $placeOrderRequest->brand_id,
             'product_id' => $placeOrderRequest->product_id,
             'delivery_address' => $placeOrderRequest->delivery_address,
