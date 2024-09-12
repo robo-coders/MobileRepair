@@ -108,7 +108,7 @@ class ApplicationController extends Controller
                 'currency'      => 'eur',
                 'source'        => $placeOrderRequest->card_token,
                 'description'   => "ORDER # $order_number | $brand->name | $product->name | $part->name | Reparapido",
-                'receipt_email' => "adsasdas@asdas.asd"
+                'receipt_email' => "ameerhamza7110@gmail.com"
             ]);
         } catch (\Throwable $th) {
             return response()->error(500, "We were unable to process your payment. Please use an alternative card.", [], "403");
