@@ -16,7 +16,9 @@ use App\Models\Product_part;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Stripe\StripeClient;
 
 class ApplicationController extends Controller
 {
@@ -92,11 +94,29 @@ class ApplicationController extends Controller
     }
     
     public function placeOrder(PlaceOrderRequest $placeOrderRequest) {
-        $part = Product_part::find($placeOrderRequest->part_id);
+
+        $order_number = strtoupper(\Str::random(8));
+        $brand   = Brand::find($placeOrderRequest->brand_id);
+        $product = Product::find($placeOrderRequest->product_id);
+        $part    = Product_part::find($placeOrderRequest->part_id);
+
+        try {
+            $stripe = new StripeClient(env('STRIPE_SECRET'));
+
+            $response = $stripe->charges->create([
+                'amount'        => $placeOrderRequest->total * 100,
+                'currency'      => 'eur',
+                'source'        => $placeOrderRequest->card_token,
+                'description'   => "ORDER # $order_number | $brand->name | $product->name | $part->name | Reparapido",
+                'receipt_email' => (Auth::user()->email) ?? ""
+            ]);
+        } catch (\Throwable $th) {
+            return response()->error(500, "We were unable to process your payment. Please use an alternative card.", [], "403");
+        }
 
         $order = Order::create([
             'user_id' => Auth::id(),
-            'order_number' => \Str::random(8),
+            'order_number' => $order_number,
             'brand_id' => $placeOrderRequest->brand_id,
             'product_id' => $placeOrderRequest->product_id,
             'delivery_address' => $placeOrderRequest->delivery_address,

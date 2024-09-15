@@ -19,7 +19,13 @@ use Illuminate\Support\Facades\Hash;
 
 // Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
 Route::get('/', function () {
-    return Hash::make("admin@123");
+    return view("stripe.payment");
+    // return Hash::make("admin@123");
+});
+
+Route::controller(StripePaymentController::class)->group(function(){
+    Route::get('stripe', 'stripe');
+    Route::post('stripe', 'stripePost')->name('stripe.post');
 });
 
 
@@ -123,7 +129,7 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
 
 });
 
-Route::get("/test-pdf", function () {
-    $pdf = Pdf::loadView('pdf/invoice');
-    return $pdf->stream();
-});
+// Route::get("/test-pdf", function () {
+//     $pdf = Pdf::loadView('pdf/invoice');
+//     return $pdf->stream();
+// });
