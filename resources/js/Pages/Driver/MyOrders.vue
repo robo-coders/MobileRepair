@@ -50,7 +50,7 @@
                   </td>
                   <td>
                     <Link v-if="order.status === 'Assigned'" class="btn btn-sm btn-success" :href="route('driver.orders.shop.delivered', order.order.id)">Shop Delivery Confirmed</Link>
-                    <Link v-if="order.status === 'Processing'" class="btn btn-sm btn-success" :href="route('driver.orders.delivered', order.order.id)">Mark as Delivered</Link>
+                    <Link v-if="order.status === 'Shipped'" class="btn btn-sm btn-success" :href="route('driver.orders.delivered', order.order.id)">Mark as Delivered</Link>
                   </td>
                 </tr>
               </tbody>

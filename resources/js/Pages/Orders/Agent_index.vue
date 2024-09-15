@@ -15,6 +15,7 @@
             <thead class="bg-primary text-white">
               <tr>
                 <th scope="col">#</th>
+                <th scope="col">Order Number</th>
                 <th scope="col">Brand</th>
                 <th scope="col">Product</th>
                 <th scope="col">Part</th>
@@ -28,7 +29,7 @@
             <tbody>
               <tr v-for="(order, index) in orders" :key="order.id">
                 <th scope="row">{{ index + 1 }}</th>
-                <!-- <td>{{ order.brand.name }}</td> -->
+                <td>{{ order.order_number }}</td>
                 <td>{{ order.brand?.name }}</td>
                 <td>{{ order.product?.name }}</td>
                 <td> --- </td>

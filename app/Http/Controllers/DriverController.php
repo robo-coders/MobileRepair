@@ -93,7 +93,7 @@ class DriverController extends Controller
         $order->save();
 
         $assignment = Assignment::where('order_id', $order->id)
-                ->where('status', 'Processing')
+                ->where('status', 'Shipped')
                 ->first();
         $assignment->status = 'Delivered';
         $assignment->completed_at = now();

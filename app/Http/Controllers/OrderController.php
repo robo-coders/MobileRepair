@@ -31,8 +31,14 @@ class OrderController extends Controller
     public function changeStatusToReadyToShipped($id)
     {
         $order = Order::findOrFail($id);
-        $order->status = "ready_to_shipped";
+        $order->status = "Shipped";
         $order->save();
+
+        $assignment = Assignment::where('order_id', $order->id)
+                ->where('status', 'Processing')
+                ->first();
+        $assignment->status = 'Shipped';
+        $assignment->save();
         
         return back();
     }
@@ -52,5 +58,20 @@ class OrderController extends Controller
         // $assignment->save();
 
         // return back();
+    }
+
+    public function changeStatusToCancelled($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = "Cancelled";
+        $order->save();
+
+        $assignment = Assignment::where('order_id', $id)->first();
+        if ($assignment) {
+            $assignment->status = "Cancelled";
+            $assignment->save();
+        }
+        
+        return back();
     }
 }

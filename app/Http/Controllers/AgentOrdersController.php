@@ -44,8 +44,11 @@ class AgentOrdersController extends Controller
     public function save(Request $request)
     {
         $part = Product_part::where("id", $request->part_id)->first();
+        $latestOrder = Order::latest()->first();
+        $orderNumber = 'OR-' . str_pad($latestOrder ? $latestOrder->id + 1 : 1, 6, '0', STR_PAD_LEFT);
 
         $order = Order::create([
+            'order_number' => $orderNumber,
             'user_id' => Auth::id(),
             'brand_id' => $request->brand_id,
             'product_id' => $request->product_id,

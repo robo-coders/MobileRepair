@@ -16,10 +16,11 @@
                   <thead class="bg-primary text-white">
                         <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Order Number</th>
+                        <th scope="col" width="15%">Customer</th>
                         <th scope="col">Brand</th>
                         <th scope="col">Product</th>
                         <th scope="col">Part</th>
-                        <th scope="col" width="15%">Description</th>
                         <th scope="col">Status</th>
                         <!-- <th scope="col">Type</th> -->
                         <th scope="col">Created at</th>
@@ -29,10 +30,11 @@
                     <tbody>
                         <tr v-for="(order, index) in orders" :key="order.id">
                             <th scope="row">{{ index + 1 }}</th>
+                            <td>{{ order.order_number }}</td>
+                            <td>{{ order.user.name }}</td>
                             <td>{{ order.brand?.name }}</td>
                             <td>{{ order.product?.name }}</td>
                             <td>{{ (order?.order_parts[0]?.part?.name) ?? "---" }}</td>
-                            <td>{{ order.description }}</td>
                             <td>
                                 <span v-if="order.status === 'Pending'" class="badge badge-warning">Pending</span>
                                 <span v-if="order.status === 'Assigned'" class="badge badge-primary">Assigned</span>
@@ -45,9 +47,18 @@
                             <td> {{order.order_date}} </td>
                             <td>
                                 <div class="btn-group">
-                                    <Link v-if="order.status === 'delivered_to_shop'" class="btn btn-sm btn-primary" :href="route('orders.status.processing', order.id)">Start Processing</Link>
-            
-                                    <Link v-if="order.status === 'processing'" class="btn btn-sm btn-success" :href="route('orders.status.readyToShipped', order.id)">Ready to Shipped</Link>
+                                    <Link 
+                                        v-if="order.status === 'Processing'" class="btn btn-sm btn-success" :href="route('orders.status.readyToShipped', order.id)">
+                                        Ready to Shipped
+                                    </Link>
+                                    
+                                    <Link 
+                                        v-if="order.status === 'Pending' || order.status === 'Assigned' 
+                                        || order.status === 'Processing'"  
+                                        class="btn btn-sm btn-danger" 
+                                        :href="route('orders.status.cancelled', order.id)"> 
+                                        Cancel 
+                                    </Link>
             
                                     <Link v-if="order.status === 'delivered_to_client'" class="btn btn-sm btn-success" :href="route('orders.status.completed',order.id)">Mark as Completed</Link>
                                 </div>

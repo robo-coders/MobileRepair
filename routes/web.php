@@ -53,6 +53,7 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/processing/{id}', [OrderController::class, 'changeStatusToProcessing'])->name('orders.status.processing');
         Route::get('/ready/shipped/{id}', [OrderController::class, 'changeStatusToReadyToShipped'])->name('orders.status.readyToShipped');
         Route::get('/completed/{id}', [OrderController::class, 'changeStatusToCompleted'])->name('orders.status.completed');
+        Route::get('/cancelled/{id}', [OrderController::class, 'changeStatusToCancelled'])->name('orders.status.cancelled');
         
         
     });
