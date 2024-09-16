@@ -17,7 +17,7 @@ class DriverController extends Controller
 
     public function pendingOrders()
     {
-        $orders = Order::whereIn('status', ['pending', 'ready_to_shipped'])->latest()->get();
+        $orders = Order::with('order_parts', 'order_parts.part', 'brand', 'product', 'user')->whereIn('status', ['pending', 'ready_to_shipped'])->latest()->get();
         
         return Inertia::render('Driver/Dashboard',[
             'orders' => $orders,
