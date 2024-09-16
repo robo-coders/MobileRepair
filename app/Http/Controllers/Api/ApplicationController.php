@@ -110,6 +110,8 @@ class ApplicationController extends Controller
                 'description'   => "ORDER # $order_number | $brand->name | $product->name | $part->name | Reparapido",
                 'receipt_email' => (Auth::user()->email) ?? ""
             ]);
+
+            // return $response;
         } catch (\Throwable $th) {
             return response()->error(500, "We were unable to process your payment. Please use an alternative card.", [], "403");
         }
