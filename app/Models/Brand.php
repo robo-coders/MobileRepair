@@ -17,7 +17,7 @@ class Brand extends Model
         'status'
     ];
 
-    protected $appends = ["image"];
+    protected $appends = ["image",  "created_date",];
 
     protected static function boot()
     {
@@ -40,5 +40,10 @@ class Brand extends Model
     public function getImageAttribute()
     {
         return url($this->path);
+    }
+
+    public function getCreatedDateAttribute()
+    {
+        return Carbon::parse($this->created_at)->toFormattedDayDateString();
     }
 }

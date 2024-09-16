@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col">
-          <h3 class="mb-4">Brand List</h3>
+          <h3 class="mb-4">Brands List</h3>
         </div>
         <div class="col text-right">
           <Link class="btn btn-primary" href="/brands/add">Add New</Link>
@@ -22,9 +22,9 @@
                       <th scope="col">#</th>
                       <th scope="col">Logo</th>
                       <th scope="col">Name</th>
-                      <th scope="col" width="15%">Description</th>
+                      <th scope="col" width="50%">Description</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Created Date</th>
+                      <!-- <th scope="col">Created Date</th> -->
                       <th scope="col">Actions</th>
                     </tr>
                   </thead>
@@ -37,10 +37,10 @@
                       <td>
                         <span class="badge" :class="(brand.status == 'active') ? 'badge-success' : 'badge-warning'">{{ brand.status }}</span>
                       </td>
-                      <td>{{ brand.created_date }}</td>
+                      <!-- <td>{{ brand.created_date }}</td> -->
                       <td>
                         <Link class="btn btn-sm btn-primary" :href="route('brands.edit', brand.id)">Edit</Link>
-                        <Link class="btn btn-sm btn-danger ml-1" :href="route('brands.delete', brand.id)">Delete</Link>
+                        <Link class="btn btn-sm btn-danger ml-1" @click="deleteBrand(brand)">Delete</Link>
                       </td>
                     </tr>
                   </tbody>
@@ -54,6 +54,8 @@
 
 <script>
 import Parent from "../Parent.vue";
+
+import Swal from 'sweetalert2'
 
 export default {
 
@@ -78,8 +80,20 @@ export default {
     editBrand(id) {
       console.log(`Edit brand with ID ${id}`);
     },
-    deleteBrand(id) {
-      console.log(`Delete brand with ID ${id}`);
+    deleteBrand(brand) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, do it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.replace(route('brands.delete', brand.id));
+        }
+      });
     },
   },
 };

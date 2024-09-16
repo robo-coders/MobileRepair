@@ -6,9 +6,6 @@
             <div class="col">
                 <h3 class="mb-4">Orders List</h3>
             </div>
-            <div class="col text-right">
-                <Link class="btn btn-primary" href="">Back</Link>
-            </div>
         </div>
         <div class="card">
             <div class="card-body">
@@ -46,22 +43,12 @@
                             <!-- <td> --- </td> -->
                             <td> {{order.order_date}} </td>
                             <td>
-                                <div class="btn-group">
-                                    <Link 
-                                        v-if="order.status === 'Processing'" class="btn btn-sm btn-success" :href="route('orders.status.readyToShipped', order.id)">
-                                        Ready to Shipped
-                                    </Link>
-                                    
-                                    <Link 
-                                        v-if="order.status === 'Pending' || order.status === 'Assigned' 
-                                        || order.status === 'Processing'"  
-                                        class="btn btn-sm btn-danger" 
-                                        :href="route('orders.status.cancelled', order.id)"> 
-                                        Cancel 
-                                    </Link>
-            
-                                    <Link v-if="order.status === 'delivered_to_client'" class="btn btn-sm btn-success" :href="route('orders.status.completed',order.id)">Mark as Completed</Link>
-                                </div>
+                                <Link v-if="order.status === 'Processing'" class="m-1 btn btn-sm btn-success" @click="markAsReadyToShipped(order)">Ready to Shipped</Link>
+                                
+                                <Link v-if="order.status === 'Pending' || order.status === 'Assigned' || order.status === 'Processing'" class="m-1 btn btn-sm btn-danger" @click="markAsCancelled(order)">Cancel </Link>
+
+                                <Link v-if="order.status === 'delivered_to_client'" class="m-1 btn btn-sm btn-success" @click="markAsCompleted(order)">Mark as Completed</Link>
+                            
                             </td>
                         </tr>
                     </tbody>
@@ -75,6 +62,7 @@
 
 <script>
 import Parent from "../Parent.vue";
+import Swal from "sweetalert2"
 
 export default {
     components: {
@@ -86,5 +74,52 @@ export default {
         required: true,
         },
     },
+    methods : {
+        markAsCancelled(order) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, do it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.replace(route('orders.status.cancelled', order.id));
+                }
+            });
+        },
+        markAsCompleted(order) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, do it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.replace(route('orders.status.completed',order.id));
+                }
+            });
+        },
+        markAsReadyToShipped(order) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, do it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.replace(route('orders.status.readyToShipped', order.id));
+                }
+            });
+        },
+    }
 }
 </script>

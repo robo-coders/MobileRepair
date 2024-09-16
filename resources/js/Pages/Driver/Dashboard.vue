@@ -39,7 +39,7 @@
                     <span v-if="order.status === 'Pending'" class="badge badge-warning">{{ order.status }}</span>
                   </td>
                   <td>
-                    <Link  class="btn btn-sm btn-primary" :href="route('driver.orders.assignToMyself', order.id)">
+                    <Link  class="btn btn-sm btn-primary" @click="assignToMyself(order)">
                       Assign to Myself
                     </Link>
                   </td>
@@ -54,6 +54,7 @@
   
   <script>
   import Parent from "../Parent.vue";
+  import Swal from "sweetalert2"
   
   export default {
     components: {
@@ -66,7 +67,21 @@
       },
     },
     methods: {
-      
+      assignToMyself(order) {
+          Swal.fire({
+              title: "Are you sure?",
+              text: "Do you want to assign this order to yourself?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, do it!"
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  window.location.replace(route('driver.orders.assignToMyself', order.id));
+              }
+          });
+      },
     }
   }
   </script>

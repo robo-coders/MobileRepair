@@ -2,8 +2,11 @@
   "__plugin-vue_export-helper-x3n3nnut.js": {
     "file": "assets/_plugin-vue_export-helper-x3n3nnut.js"
   },
+  "_sweetalert2.esm.all-JfA7lMxK.js": {
+    "file": "assets/sweetalert2.esm.all-JfA7lMxK.js"
+  },
   "resources/js/Pages/Agent/Dashboard.vue": {
-    "file": "assets/Dashboard-WMNIvVOv.js",
+    "file": "assets/Dashboard-EB5bG7ho.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -15,7 +18,7 @@
     "src": "resources/js/Pages/Agent/Dashboard.vue"
   },
   "resources/js/Pages/Agent/Upload.vue": {
-    "file": "assets/Upload-u_x9EKZt.js",
+    "file": "assets/Upload-IHIr351D.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -27,7 +30,7 @@
     "src": "resources/js/Pages/Agent/Upload.vue"
   },
   "resources/js/Pages/Applications/Status.vue": {
-    "file": "assets/Status-9d77qE-p.js",
+    "file": "assets/Status-4Rj2otND.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -39,7 +42,7 @@
     "src": "resources/js/Pages/Applications/Status.vue"
   },
   "resources/js/Pages/Auth/Login.vue": {
-    "file": "assets/Login-3DpmGp6u.js",
+    "file": "assets/Login-lauplNAW.js",
     "imports": [
       "resources/js/app.js",
       "__plugin-vue_export-helper-x3n3nnut.js"
@@ -48,7 +51,7 @@
     "src": "resources/js/Pages/Auth/Login.vue"
   },
   "resources/js/Pages/Brands/Add.vue": {
-    "file": "assets/Add-wC18umz1.js",
+    "file": "assets/Add-K8QuBHGU.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -60,7 +63,7 @@
     "src": "resources/js/Pages/Brands/Add.vue"
   },
   "resources/js/Pages/Brands/Edit.vue": {
-    "file": "assets/Edit-OCMNT3K_.js",
+    "file": "assets/Edit-4fRxlbRx.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -72,9 +75,10 @@
     "src": "resources/js/Pages/Brands/Edit.vue"
   },
   "resources/js/Pages/Brands/Index.vue": {
-    "file": "assets/Index-AhLuXVdz.js",
+    "file": "assets/Index-flB7_tsh.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
+      "_sweetalert2.esm.all-JfA7lMxK.js",
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js",
       "resources/js/Pages/Partials/Sidebar.vue",
@@ -84,9 +88,10 @@
     "src": "resources/js/Pages/Brands/Index.vue"
   },
   "resources/js/Pages/Driver/Dashboard.vue": {
-    "file": "assets/Dashboard-wEpxdKGG.js",
+    "file": "assets/Dashboard-TbMKYVJw.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
+      "_sweetalert2.esm.all-JfA7lMxK.js",
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js",
       "resources/js/Pages/Partials/Sidebar.vue",
@@ -96,9 +101,10 @@
     "src": "resources/js/Pages/Driver/Dashboard.vue"
   },
   "resources/js/Pages/Driver/MyOrders.vue": {
-    "file": "assets/MyOrders-rinDT5OF.js",
+    "file": "assets/MyOrders-vYZ4TiWY.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
+      "_sweetalert2.esm.all-JfA7lMxK.js",
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js",
       "resources/js/Pages/Partials/Sidebar.vue",
@@ -108,7 +114,7 @@
     "src": "resources/js/Pages/Driver/MyOrders.vue"
   },
   "resources/js/Pages/Orders/Agent_add.vue": {
-    "file": "assets/Agent_add-NcpEWeDj.js",
+    "file": "assets/Agent_add-QuRXgCy_.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -120,7 +126,7 @@
     "src": "resources/js/Pages/Orders/Agent_add.vue"
   },
   "resources/js/Pages/Orders/Agent_index.vue": {
-    "file": "assets/Agent_index-XzXLAq-e.js",
+    "file": "assets/Agent_index-Nuu74iad.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -132,9 +138,10 @@
     "src": "resources/js/Pages/Orders/Agent_index.vue"
   },
   "resources/js/Pages/Orders/Index.vue": {
-    "file": "assets/Index-q4nQwr0v.js",
+    "file": "assets/Index-PpH24H6y.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
+      "_sweetalert2.esm.all-JfA7lMxK.js",
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js",
       "resources/js/Pages/Partials/Sidebar.vue",
@@ -144,7 +151,7 @@
     "src": "resources/js/Pages/Orders/Index.vue"
   },
   "resources/js/Pages/Parent.vue": {
-    "file": "assets/Parent-W4omp5e3.js",
+    "file": "assets/Parent-_ieKBN-W.js",
     "imports": [
       "resources/js/Pages/Partials/Sidebar.vue",
       "resources/js/Pages/Partials/Header.vue",
@@ -155,7 +162,7 @@
     "src": "resources/js/Pages/Parent.vue"
   },
   "resources/js/Pages/Partials/Header.vue": {
-    "file": "assets/Header-SJ1JIdfU.js",
+    "file": "assets/Header-uaTl70VL.js",
     "imports": [
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js"
@@ -164,7 +171,7 @@
     "src": "resources/js/Pages/Partials/Header.vue"
   },
   "resources/js/Pages/Partials/Sidebar.vue": {
-    "file": "assets/Sidebar-EJGzqCmH.js",
+    "file": "assets/Sidebar-YjBe8u1j.js",
     "imports": [
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js"
@@ -173,7 +180,7 @@
     "src": "resources/js/Pages/Partials/Sidebar.vue"
   },
   "resources/js/Pages/Parts/Add.vue": {
-    "file": "assets/Add-WQI41BYD.js",
+    "file": "assets/Add-KOv_0eqH.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -185,7 +192,7 @@
     "src": "resources/js/Pages/Parts/Add.vue"
   },
   "resources/js/Pages/Parts/Edit.vue": {
-    "file": "assets/Edit-cYMrN3QV.js",
+    "file": "assets/Edit-3xDpYEU8.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -197,9 +204,10 @@
     "src": "resources/js/Pages/Parts/Edit.vue"
   },
   "resources/js/Pages/Parts/Index.vue": {
-    "file": "assets/Index-rxnQKweK.js",
+    "file": "assets/Index-9cPQZp5A.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
+      "_sweetalert2.esm.all-JfA7lMxK.js",
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js",
       "resources/js/Pages/Partials/Sidebar.vue",
@@ -209,7 +217,7 @@
     "src": "resources/js/Pages/Parts/Index.vue"
   },
   "resources/js/Pages/Products/Add.vue": {
-    "file": "assets/Add-TATkGYHD.js",
+    "file": "assets/Add-nztmy6EE.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -221,7 +229,7 @@
     "src": "resources/js/Pages/Products/Add.vue"
   },
   "resources/js/Pages/Products/Edit.vue": {
-    "file": "assets/Edit-aYEpo-6t.js",
+    "file": "assets/Edit-V1LrtjK0.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -233,9 +241,10 @@
     "src": "resources/js/Pages/Products/Edit.vue"
   },
   "resources/js/Pages/Products/Index.vue": {
-    "file": "assets/Index-kSwRAv9x.js",
+    "file": "assets/Index-VKOUcCLN.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
+      "_sweetalert2.esm.all-JfA7lMxK.js",
       "__plugin-vue_export-helper-x3n3nnut.js",
       "resources/js/app.js",
       "resources/js/Pages/Partials/Sidebar.vue",
@@ -245,7 +254,7 @@
     "src": "resources/js/Pages/Products/Index.vue"
   },
   "resources/js/Pages/Test.vue": {
-    "file": "assets/Test-pXShP8mc.js",
+    "file": "assets/Test-djtZH3WP.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -257,7 +266,7 @@
     "src": "resources/js/Pages/Test.vue"
   },
   "resources/js/Pages/Users/Add.vue": {
-    "file": "assets/Add-Ci9kISjN.js",
+    "file": "assets/Add-79H30WJt.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -269,7 +278,7 @@
     "src": "resources/js/Pages/Users/Add.vue"
   },
   "resources/js/Pages/Users/Admin.vue": {
-    "file": "assets/Admin-1zINPxw8.js",
+    "file": "assets/Admin-bJ9RPsY2.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -281,7 +290,7 @@
     "src": "resources/js/Pages/Users/Admin.vue"
   },
   "resources/js/Pages/Users/Agent.vue": {
-    "file": "assets/Agent-gQyu2ipC.js",
+    "file": "assets/Agent-G3ZERDqZ.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -293,7 +302,7 @@
     "src": "resources/js/Pages/Users/Agent.vue"
   },
   "resources/js/Pages/Users/Customer.vue": {
-    "file": "assets/Customer-qJZOmOev.js",
+    "file": "assets/Customer-jQaCqtMf.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -305,7 +314,7 @@
     "src": "resources/js/Pages/Users/Customer.vue"
   },
   "resources/js/Pages/Users/Driver.vue": {
-    "file": "assets/Driver-_DfPm_iM.js",
+    "file": "assets/Driver-JqNLeIqG.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -317,7 +326,7 @@
     "src": "resources/js/Pages/Users/Driver.vue"
   },
   "resources/js/Pages/Users/Edit.vue": {
-    "file": "assets/Edit-grEjR4AR.js",
+    "file": "assets/Edit-b8BBfmwl.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "resources/js/app.js",
@@ -329,7 +338,7 @@
     "src": "resources/js/Pages/Users/Edit.vue"
   },
   "resources/js/Pages/Users/Index.vue": {
-    "file": "assets/Index-52BklwHB.js",
+    "file": "assets/Index-dwFzeSuK.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -341,7 +350,7 @@
     "src": "resources/js/Pages/Users/Index.vue"
   },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-XCfLvWuQ.js",
+    "file": "assets/Welcome-O5jpYSAT.js",
     "imports": [
       "resources/js/Pages/Parent.vue",
       "__plugin-vue_export-helper-x3n3nnut.js",
@@ -388,7 +397,7 @@
       "resources/js/Pages/Users/Index.vue",
       "resources/js/Pages/Welcome.vue"
     ],
-    "file": "assets/app-A2Ooqnut.js",
+    "file": "assets/app-nJ2U083f.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }

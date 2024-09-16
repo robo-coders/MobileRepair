@@ -49,8 +49,8 @@
                     <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
                   </td>
                   <td>
-                    <Link v-if="order.status === 'Assigned'" class="btn btn-sm btn-success" :href="route('driver.orders.shop.delivered', order.order.id)">Shop Delivery Confirmed</Link>
-                    <Link v-if="order.status === 'Shipped'" class="btn btn-sm btn-success" :href="route('driver.orders.delivered', order.order.id)">Mark as Delivered</Link>
+                    <Link v-if="order.status === 'Assigned'" class="btn btn-sm btn-success" @click="deliveredToShop(order)">Delivered To Shop</Link>
+                    <Link v-if="order.status === 'Shipped'" class="btn btn-sm btn-success" @click="markAsDelivered(order)">Mark as Delivered</Link>
                   </td>
                 </tr>
               </tbody>
@@ -63,6 +63,7 @@
   
   <script>
   import Parent from "../Parent.vue";
+  import Swal from "sweetalert2"
   
   export default {
     components: {
@@ -75,7 +76,36 @@
       },
     },
     methods: {
-      
+      deliveredToShop(order) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, do it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.replace(route('driver.orders.shop.delivered', order.order.id));
+            }
+        });
+      },
+      markAsDelivered(order) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, do it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.replace(route('driver.orders.delivered', order.order.id));
+            }
+        });
+      },
     }
   }
   </script>

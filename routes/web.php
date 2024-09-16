@@ -1,44 +1,40 @@
 <?php
 
 use App\Http\Controllers\AgentApplicationController;
-use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AgentOrdersController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-
-
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PartController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
-// Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
 Route::get('/', function () {
-    return view("stripe.payment");
+    return redirect("/login");
     // return Hash::make("admin@123");
 });
 
-Route::controller(StripePaymentController::class)->group(function(){
-    Route::get('stripe', 'stripe');
-    Route::post('stripe', 'stripePost')->name('stripe.post');
-});
-
+Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
 
 Route::middleware(['auth', 'check-user-role'])->group(function () {
 
-//AgentApplication
+    Route::get('/dashboard', function () {
+        return Inertia::render('Welcome');
+    });
+
+    //AgentApplication
     Route::prefix('agent/status')->group(function () {
         Route::get('/{id}', [AgentApplicationController::class, 'agentStatus'])->name('agent.status');
         Route::get('/reject/application/reason/{id}', [AgentApplicationController::class, 'agentStatusToReject'])->name('agent.status.reject');
         Route::post('/approve/application/{id}', [AgentApplicationController::class, 'agentStatusToApprove'])->name('agent.status.approve');
     });
 
- //Agent
+    //Agent
     Route::prefix('agent/applications')->group(function () {
         // Route::get('/list', [AgentController::class, 'applicationList'])->name('agent.application.list');
         Route::get('/', [AgentController::class, 'applications'])->name('agent.application');
@@ -47,23 +43,23 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/approve/{id}', [AgentController::class, 'approveApplication'])->name('agent.application.approve');
     });
 
-//Agent Orders
+    //Agent Orders
     Route::prefix('agent/orders')->group(function () {
         Route::get('/', [AgentOrdersController::class, 'index'])->name('agent.orders.index');
         Route::get('/add', [AgentOrdersController::class, 'add'])->name('agent.orders.add');
         Route::post('/save', [AgentOrdersController::class, 'save'])->name('agent.orders.save');
     });
-//Orders
+
+    //Orders
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/processing/{id}', [OrderController::class, 'changeStatusToProcessing'])->name('orders.status.processing');
         Route::get('/ready/shipped/{id}', [OrderController::class, 'changeStatusToReadyToShipped'])->name('orders.status.readyToShipped');
         Route::get('/completed/{id}', [OrderController::class, 'changeStatusToCompleted'])->name('orders.status.completed');
         Route::get('/cancelled/{id}', [OrderController::class, 'changeStatusToCancelled'])->name('orders.status.cancelled');
-        
-        
     });
-//Drivers
+
+    //Drivers
     Route::prefix('driver/orders')->group(function () {
         Route::get('/', [DriverController::class, 'index'])->name('driver.orders.index');
         Route::get('/pending', [DriverController::class, 'pendingOrders'])->name('driver.orders.pending');
@@ -71,11 +67,6 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/assigned', [DriverController::class, 'myOrders'])->name('driver.orders.myOrders');
         Route::get('/shop/delivered/{id}', [DriverController::class, 'deliveredToShop'])->name('driver.orders.shop.delivered');
         Route::get('/delivered/{id}', [DriverController::class, 'markAsdelivered'])->name('driver.orders.delivered');
-    });
-
-
-    Route::get('/dashboard', function () {
-        return Inertia::render('Welcome');
     });
 
     Route::get('/logout', function () {
@@ -126,10 +117,4 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::post('/update/{id}', [PartController::class, 'update'])->name('parts.update');
         Route::get('/delete/{id}', [PartController::class, 'delete'])->name('parts.delete');
     });
-
 });
-
-// Route::get("/test-pdf", function () {
-//     $pdf = Pdf::loadView('pdf/invoice');
-//     return $pdf->stream();
-// });

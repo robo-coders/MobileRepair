@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <h3 class="mb-4">Product List</h3>
+                <h3 class="mb-4">Products List</h3>
             </div>
             <div class="col text-right">
             <Link class="btn btn-primary" href="/products/add">Add New</Link>
@@ -35,7 +35,7 @@
                             </td>
                             <td>
                                 <Link class="btn btn-sm btn-primary" :href="route('products.edit', product.id)">Edit</Link>
-                                <Link class="btn btn-sm btn-danger ml-1" :href="route('products.delete', product.id)">Delete</Link>
+                                <Link class="btn btn-sm btn-danger ml-1" @click="deleteProduct(product)">Delete</Link>
                             </td>
                         </tr>
                     </tbody>
@@ -48,6 +48,7 @@
 
 <script>
 import Parent from "../Parent.vue";
+import Swal from "sweetalert2"
 
 export default {
     components: {
@@ -59,5 +60,22 @@ export default {
         required: true,
         },
     },
+    methods : {
+        deleteProduct(product) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, do it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.replace(route('products.delete', product.id));
+                }
+            });
+        },
+    }
 }
 </script>
