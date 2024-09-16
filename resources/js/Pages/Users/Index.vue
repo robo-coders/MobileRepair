@@ -41,7 +41,7 @@
                                 </td>
                                 <td>
                                     <Link class="btn btn-sm btn-primary" :href="route('users.edit', user.id)">Edit</Link>
-                                    <Link class="btn btn-sm btn-danger ml-1" :href="route('users.delete', user.id)">Delete</Link>
+                                    <Link class="btn btn-sm btn-danger ml-1" @click="deleteUser(user)">Delete</Link>
                                 </td>
                             </tr>
                         </tbody>
@@ -54,6 +54,7 @@
 
 <script>
 import Parent from "../Parent.vue";
+import Swal from "sweetalert2"
 
 export default {
 
@@ -66,5 +67,22 @@ export default {
         required: true,
         },
     },
+    methods : {
+        deleteUser(user) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, do it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.replace(route('users.delete', user.id));
+                }
+            });
+        },
+    }
 }
 </script>
