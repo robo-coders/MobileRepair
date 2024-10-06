@@ -6,10 +6,14 @@ use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Order_part;
 use App\Models\Product_part;
+use App\Models\User;
+use App\Notifications\NewDriverOrderNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use PhpParser\Builder\Param;
+use Stripe\StripeClient;
 
 class AgentOrdersController extends Controller
 {
@@ -37,6 +41,7 @@ class AgentOrdersController extends Controller
 
         return Inertia::render('Orders/Agent_add', [
             'brands' => $brands,
+            'pk' => env("STRIPE_PUB_KEY"),
         ]);
         
     }
@@ -44,16 +49,28 @@ class AgentOrdersController extends Controller
     public function save(Request $request)
     {
         $part = Product_part::where("id", $request->part_id)->first();
-        $latestOrder = Order::latest()->first();
-        $orderNumber = 'OR-' . str_pad($latestOrder ? $latestOrder->id + 1 : 1, 6, '0', STR_PAD_LEFT);
+        $orderNumber = strtoupper(\Str::random(8));
+        $stripe = new StripeClient(env('STRIPE_SECRET'));
+        $narration = "AGENT ORDER # " . $orderNumber . " | " . $part->brand->name . " | " . $part->product->name . " | " . $part->name . " | Reparapido";
+
+        $stripe->charges->create([
+            'amount'        => $part->agent_price * 100,
+            'currency'      => 'eur',
+            'source'        => $request->cardToken,
+            'description'   => $narration,
+            'receipt_email' => (Auth::user()->email) ?? ""
+        ]);
 
         $order = Order::create([
-            'order_number' => $orderNumber,
             'user_id' => Auth::id(),
+            'order_number' => $orderNumber,
             'brand_id' => $request->brand_id,
             'product_id' => $request->product_id,
+            'delivery_address' => $request->address,
             'description' => $request->description,
-            'total_amount' => $part->agent_price
+            'sub_total_amount' => $part->agent_price,
+            'total_amount' => $part->agent_price,
+            'status' => "Pending"
         ]);
             
         Order_part::create([
@@ -62,7 +79,14 @@ class AgentOrdersController extends Controller
             'amount' => $part->agent_price
         ]);
 
-        return redirect("/agent/orders");
+        $order->narration = $narration;
 
+        $drivers = User::whereRole("Driver")->whereStatus("active")->get();
+
+        foreach ($drivers as $key => $driver) {
+            $driver->notify(new NewDriverOrderNotification($order));
+        }
+
+        return redirect("/agent/orders");
     }
 }

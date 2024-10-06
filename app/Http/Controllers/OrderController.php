@@ -18,6 +18,15 @@ class OrderController extends Controller
             'orders' => $orders,
         ]);
     }
+    
+    public function details($id)
+    {
+        $order = Order::with('order_parts', 'order_parts.part', 'brand', 'product', 'user')->whereId($id)->first();
+
+        return Inertia::render('Orders/View', [
+            'order' => $order
+        ]);
+    }
 
     public function changeStatusToProcessing($id)
     {

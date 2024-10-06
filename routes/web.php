@@ -53,6 +53,7 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
     //Orders
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/details/{id}', [OrderController::class, 'details'])->name('orders.details');
         Route::get('/processing/{id}', [OrderController::class, 'changeStatusToProcessing'])->name('orders.status.processing');
         Route::get('/ready/shipped/{id}', [OrderController::class, 'changeStatusToReadyToShipped'])->name('orders.status.readyToShipped');
         Route::get('/completed/{id}', [OrderController::class, 'changeStatusToCompleted'])->name('orders.status.completed');

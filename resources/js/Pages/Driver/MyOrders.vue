@@ -49,6 +49,7 @@
                     <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
                   </td>
                   <td>
+                    <Link :href="'/orders/details/' + order?.order_id" class="m-1 btn btn-sm btn-primary">View</Link>
                     <Link v-if="order.status === 'Assigned'" class="btn btn-sm btn-success" @click="deliveredToShop(order)">Delivered To Shop</Link>
                     <Link v-if="order.status === 'Shipped'" class="btn btn-sm btn-success" @click="markAsDelivered(order)">Mark as Delivered</Link>
                   </td>

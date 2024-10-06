@@ -19,7 +19,6 @@
                         <th scope="col">Product</th>
                         <th scope="col">Part</th>
                         <th scope="col">Status</th>
-                        <!-- <th scope="col">Type</th> -->
                         <th scope="col">Created at</th>
                         <th scope="col">Actions</th>
                         </tr>
@@ -40,9 +39,10 @@
                                 <span v-if="order.status === 'Delivered'" class="badge badge-success">Delivered</span>
                                 <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
                             </td>
-                            <!-- <td> --- </td> -->
                             <td> {{order.order_date}} </td>
                             <td>
+                                <Link :href="'/orders/details/' + order?.id" class="m-1 btn btn-sm btn-primary">View</Link>
+
                                 <Link v-if="order.status === 'Processing'" class="m-1 btn btn-sm btn-success" @click="markAsReadyToShipped(order)">Ready to Shipped</Link>
                                 
                                 <Link v-if="order.status === 'Pending' || order.status === 'Assigned' || order.status === 'Processing'" class="m-1 btn btn-sm btn-danger" @click="markAsCancelled(order)">Cancel </Link>

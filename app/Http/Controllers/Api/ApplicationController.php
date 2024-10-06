@@ -16,7 +16,6 @@ use App\Models\Product_part;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Stripe\StripeClient;
 
@@ -107,7 +106,7 @@ class ApplicationController extends Controller
                 'amount'        => $placeOrderRequest->total * 100,
                 'currency'      => 'eur',
                 'source'        => $placeOrderRequest->card_token,
-                'description'   => "ORDER # $order_number | $brand->name | $product->name | $part->name | Reparapido",
+                'description'   => "CUSTOMER ORDER # $order_number | $brand->name | $product->name | $part->name | Reparapido",
                 'receipt_email' => (Auth::user()->email) ?? ""
             ]);
 

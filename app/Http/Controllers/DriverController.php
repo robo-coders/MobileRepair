@@ -78,6 +78,7 @@ class DriverController extends Controller
         $user = auth()->user();
         // $orders = $user->userAssignments()->with('order')->get()->pluck('order');
         $orders = $user->userAssignments()->with('order')->get();
+        
         // $orders = $user->userAssignments()->with('order')->latest()->first();
         
 

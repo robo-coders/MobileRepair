@@ -45,7 +45,7 @@
                   <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
                 </td>
                 <td>
-                 ---
+                  <Link :href="'/orders/details/' + order?.id" class="m-1 btn btn-sm btn-primary">View</Link>
                 </td>
               </tr>
             </tbody>

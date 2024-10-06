@@ -51,6 +51,7 @@
                     </td>
                     <td> {{order.order_date}} </td>
                     <td>
+                      <Link :href="'/orders/details/' + order?.id" class="m-1 btn btn-sm btn-primary">View</Link>
                       <Link  class="btn btn-sm btn-primary" @click="assignToMyself(order)">
                         Assign To Me
                       </Link>
