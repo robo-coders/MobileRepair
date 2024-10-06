@@ -13,6 +13,8 @@ use App\Models\Order;
 use App\Models\Order_part;
 use App\Models\Product;
 use App\Models\Product_part;
+use App\Models\User;
+use App\Notifications\NewDriverOrderNotification;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,6 +100,7 @@ class ApplicationController extends Controller
         $brand   = Brand::find($placeOrderRequest->brand_id);
         $product = Product::find($placeOrderRequest->product_id);
         $part    = Product_part::find($placeOrderRequest->part_id);
+        $narration = "CUSTOMER ORDER # $order_number | $brand->name | $product->name | $part->name | Reparapido";
 
         try {
             $stripe = new StripeClient(env('STRIPE_SECRET'));
@@ -106,7 +109,7 @@ class ApplicationController extends Controller
                 'amount'        => $placeOrderRequest->total * 100,
                 'currency'      => 'eur',
                 'source'        => $placeOrderRequest->card_token,
-                'description'   => "CUSTOMER ORDER # $order_number | $brand->name | $product->name | $part->name | Reparapido",
+                'description'   => $narration,
                 'receipt_email' => (Auth::user()->email) ?? ""
             ]);
 
@@ -149,6 +152,14 @@ class ApplicationController extends Controller
 
             $order->invoice = str_replace("public", "storage", $path);
             $order->save();
+        }
+
+        $order->narration = $narration;
+
+        $drivers = User::whereRole("Driver")->whereStatus("active")->get();
+
+        foreach ($drivers as $key => $driver) {
+            $driver->notify(new NewDriverOrderNotification($order));
         }
 
         return response()->success(200, "Success!", [
