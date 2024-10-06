@@ -24,6 +24,13 @@ Route::get('/send-welcome-email', [EmailController::class, 'sendWelcomeEmail']);
 Route::middleware(['auth', 'check-user-role'])->group(function () {
 
     Route::get('/dashboard', function () {
+        $user = Auth::user();
+
+        if ($user->status != "active") {
+            $user->status = "active";
+            $user->save();
+        }
+        
         return Inertia::render('Welcome');
     });
 
