@@ -105,20 +105,20 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $user = User::findOrFail($id);
-    
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:50',
-        'email' => 'required|email|unique:users,email,'.$id,
-        'mobile' => ['required', 'numeric'],
-        'role' => 'required|string|in:Admin,Driver,Agent,Customer',
-    ]);
+    {
+        $user = User::findOrFail($id);
+        
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:50',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'mobile' => ['required', 'numeric'],
+            'role' => 'required|string|in:Admin,Driver,Agent,Customer',
+        ]);
 
-    $user->update($validatedData);
-    return redirect()->route('users')->with('success', 'User updated successfully');
+        $user->update($validatedData);
+        return redirect()->route('users')->with('success', 'User updated successfully');
 
-}
+    }
 
     public function delete($id)
     {
