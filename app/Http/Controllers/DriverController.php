@@ -75,12 +75,7 @@ class DriverController extends Controller
 
     public function myOrders()
     {
-        $user = auth()->user();
-        // $orders = $user->userAssignments()->with('order')->get()->pluck('order');
-        $orders = $user->userAssignments()->with('order')->get();
-        
-        // $orders = $user->userAssignments()->with('order')->latest()->first();
-        
+        $orders = auth()->user()->userAssignments()->with(['order', 'order.order_parts', 'order.order_parts.part', 'order.brand', 'order.product', 'order.user'])->latest()->get();
 
         return Inertia::render('Driver/MyOrders',[
             'orders' => $orders

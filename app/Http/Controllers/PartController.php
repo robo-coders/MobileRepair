@@ -33,12 +33,12 @@ class PartController extends Controller
         $request->validate([
             'product_id' => ['required', 'integer'],
             'name' => ['required', 'max:100', 'string'],
-            'description' => ['required', 'string'],
-            'customer_price' => ['required', 'numeric'],
+            'description' => ['nullable', 'string'],
+            'customer_price' => ['nullable', 'numeric'],
             'agent_price' => ['required', 'numeric'],
         ]);
     
-        $productPart = Product_part::updateOrCreate(
+        Product_part::updateOrCreate(
             ['id' => $request->id],
             [
                 'brand_id' => $request->brand_id,

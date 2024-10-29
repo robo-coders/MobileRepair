@@ -32,16 +32,21 @@ public function save(Request $request)
 {
     $request->validate([
         'name' => ['required', 'max:255', 'string'],
-        'description' => ['required', 'string'],
-        'logo' => ['required', 'mimes:jpg,png,jpeg', 'max:2048'], //max:2MB
+        'description' => ['nullable', 'string'],
+        'logo' => ['nullable', 'mimes:jpg,png,jpeg', 'max:2048'], //max:2MB
     ]);
     
-    $logoPath = $request->file('logo')->store('public/logos');
+    $logoPath = "";
+    
+    if ($request->hasFile("logo")) {
+        $logoPath = $request->file('logo')->store('public/logos');
+        $logoPath = str_replace("public", "storage", $logoPath);
+    }
     
     Brand::create([
         'name' => $request->name,
         'description' => $request->description,
-        'path' => str_replace("public", "storage", $logoPath)
+        'path' => $logoPath
     ]);
     
     return redirect()->route('brands')->with('success', 'Brand saved successfully');
@@ -64,7 +69,7 @@ public function edit($id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:50',
-            'description' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
             'logo' => ['nullable', 'mimes:jpg,png,jpeg', 'max:2048'], //max:2MB
         ]);
 

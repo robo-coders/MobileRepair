@@ -16,7 +16,7 @@
                   <h3>Select Brand</h3>
                   <div class="row mt-4">
                       <div class="col-4 m-auto" v-for="brand in brands" :key="brand.id" @click="selectBrand(brand)">
-                          <img :id="'brand-' + brand.id" :src="'/' + brand.path" alt="" class="brand rounded" style="width: 200px; height: auto;">
+                          <img :id="'brand-' + brand.id" :src="brand.image" alt="" class="brand rounded" style="width: 200px; height: auto;">
                           <h4 class="mt-3">{{ brand.name }}</h4>
                       </div>
                   </div>

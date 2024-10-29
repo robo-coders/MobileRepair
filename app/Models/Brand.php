@@ -14,7 +14,8 @@ class Brand extends Model
         'name',
         'description',
         'path',
-        'status'
+        'status',
+        'type'
     ];
 
     protected $appends = ["image",  "created_date",];
@@ -39,7 +40,11 @@ class Brand extends Model
 
     public function getImageAttribute()
     {
-        return url($this->path);
+        if ($this->path) {
+            return url($this->path);
+        }
+
+        return "https://ui-avatars.com/api/?name=". $this->name ."&color=FFFFFF&background=EC5624";
     }
 
     public function getCreatedDateAttribute()

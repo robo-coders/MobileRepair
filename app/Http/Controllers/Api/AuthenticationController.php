@@ -50,6 +50,7 @@ class AuthenticationController extends Controller
         $customer = User::create([
             "name" => $request->name,
             "email" => $request->email,
+            "mobile" => $request->mobile,
             "password" => Hash::make($request->password),
             "role" => "Customer",
             "last_active_on" => Carbon::now()

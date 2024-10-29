@@ -37,6 +37,7 @@ class AgentOrdersController extends Controller
     {
         $brands = Brand::with("products", "products.product_parts")
                     ->whereStatus("active")
+                    ->whereIn("type", ["Agent", "Both"])
                     ->get();
 
         return Inertia::render('Orders/Agent_add', [

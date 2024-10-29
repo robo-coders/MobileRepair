@@ -26,11 +26,11 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
     Route::get('/dashboard', function () {
         $user = Auth::user();
 
-        if ($user->status != "active") {
-            $user->status = "active";
+        if ($user->status != "Active") {
+            $user->status = "Active";
             $user->save();
         }
-        
+
         return Inertia::render('Welcome');
     });
 

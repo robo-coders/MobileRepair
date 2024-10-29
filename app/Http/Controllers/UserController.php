@@ -66,6 +66,7 @@ class UserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
+            'mobile' => ['required', 'numeric'],
             'role' => ['required', 'string', 'in:Admin,Driver,Agent,Customer']
         ]);
 
@@ -74,6 +75,7 @@ class UserController extends Controller
         User::create([
             "name" => $request->name,
             "email" => $request->email,
+            "mobile" => $request->mobile,
             "role" => $request->role,
             "password" => bcrypt($randomPassword)
         ]);
@@ -109,6 +111,7 @@ class UserController extends Controller
     $validatedData = $request->validate([
         'name' => 'required|string|max:50',
         'email' => 'required|email|unique:users,email,'.$id,
+        'mobile' => ['required', 'numeric'],
         'role' => 'required|string|in:Admin,Driver,Agent,Customer',
     ]);
 

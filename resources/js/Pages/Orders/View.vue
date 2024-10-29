@@ -26,8 +26,9 @@
                     <div class="col-md-4">
                         <h5>Customer</h5>
                         <p><img :src="order?.user?.profile_photo" class="rounded-circle" alt=""></p>
-                        <p class="mb-0">{{ order?.user?.name }}</p>
-                        <p>{{ order?.user?.email }}</p>
+                        <p class="mb-0">Name : {{ order?.user?.name }}</p>
+                        <p>Mobile : {{ (order?.user?.mobile) ?? "---" }}</p>
+                        <p v-if="order?.user?.role == 'Super Admin'">Email : {{ order?.user?.email }}</p>
                     </div>
                 </div>
                 <div class="row" v-if="order?.description">
@@ -82,7 +83,7 @@
                 <h5 class="mb-0">Payment Information</h5>
             </div>
             <div class="card-body">
-                <p><strong>Payment Method:</strong> Credit Card</p>
+                <p><strong>Payment Method:</strong> {{ order?.payment_method }}</p>
                 <p><strong>Pickup / Delivery Address Address:</strong> {{ order?.delivery_address }}</p>
             </div>
         </div>

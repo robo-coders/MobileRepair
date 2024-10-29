@@ -22,36 +22,39 @@
               <thead class="bg-primary text-white">
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Total Amount</th>
-                  <th scope="col">Assigned At</th>
-                  <th scope="col">Delivered At</th>
+                  <th scope="col">Order Number</th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Brand</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Part</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Payment Type</th>
+                  <th scope="col">Created at</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(order, index) in orders" :key="order.id">
-                  <th scope="row">{{ index + 1 }}</th>
-                  <td>{{ order.order.description }}</td>
-                  <td>{{ order.order.total_amount }}</td>
-                  <td>{{ order.assigned_at }}</td>
+                <tr v-for="(assignment, index) in orders" :key="assignment.order.id">
+                    <th scope="row">{{ index + 1 }}</th>
+                    <td>{{ assignment.order.order_number }}</td>
+                    <td>{{ assignment.order.user?.name }}</td>
+                    <td>{{ assignment.order.brand?.name }}</td>
+                    <td>{{ assignment.order.product?.name }}</td>
+                    <td>{{ (assignment.order.order_parts[0]?.part?.name) ?? "---" }}</td>
+                    <td>
+                        <span v-if="assignment.order.status === 'Pending'" class="badge badge-warning">Pending</span>
+                        <span v-if="assignment.order.status === 'Assigned'" class="badge badge-primary">Assigned</span>
+                        <span v-if="assignment.order.status === 'Processing'" class="badge badge-info">Processing</span>
+                        <span v-if="assignment.order.status === 'Shipped'" class="badge badge-primary">Shipped</span>
+                        <span v-if="assignment.order.status === 'Delivered'" class="badge badge-success">Delivered</span>
+                        <span v-if="assignment.order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
+                    </td>
+                    <td>{{ assignment.order.payment_method }}</td>
+                    <td> {{assignment.order.order_date}} </td>
                   <td>
-                    <span v-if="order.completed_at">{{ order.completed_at }}</span>
-                    <span v-else>Null</span>
-                  </td>
-                  <!-- <td> {{ order.completed_at }}</td> -->
-                  <td>
-                    <span v-if="order.status === 'Assigned'" class="badge badge-primary">Assigned</span>
-                    <span v-if="order.status === 'Processing'" class="badge badge-info">Processing</span>
-                    <span v-if="order.status === 'Shipped'" class="badge badge-primary">Shipped</span>
-                    <span v-if="order.status === 'Delivered'" class="badge badge-success">Delivered</span>
-                    <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
-                  </td>
-                  <td>
-                    <Link :href="'/orders/details/' + order?.order_id" class="m-1 btn btn-sm btn-primary">View</Link>
-                    <Link v-if="order.status === 'Assigned'" class="btn btn-sm btn-success" @click="deliveredToShop(order)">Delivered To Shop</Link>
-                    <Link v-if="order.status === 'Shipped'" class="btn btn-sm btn-success" @click="markAsDelivered(order)">Mark as Delivered</Link>
+                    <Link :href="'/orders/details/' + assignment.order.id" class="m-1 btn btn-sm btn-primary">View</Link>
+                    <Link v-if="assignment.order.status === 'Assigned'" class="btn btn-sm btn-success" @click="deliveredToShop(assignment)">Delivered To Shop</Link>
+                    <Link v-if="assignment.order.status === 'Shipped'" class="btn btn-sm btn-success" @click="markAsDelivered(assignment)">Mark as Delivered</Link>
                   </td>
                 </tr>
               </tbody>
@@ -77,7 +80,7 @@
       },
     },
     methods: {
-      deliveredToShop(order) {
+      deliveredToShop(assignment) {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -88,11 +91,11 @@
             confirmButtonText: "Yes, do it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.replace(route('driver.orders.shop.delivered', order.order.id));
+              window.location.replace(route('driver.orders.shop.delivered', assignment.order.id));
             }
         });
       },
-      markAsDelivered(order) {
+      markAsDelivered(assignment) {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -103,7 +106,7 @@
             confirmButtonText: "Yes, do it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.replace(route('driver.orders.delivered', order.order.id));
+                window.location.replace(route('driver.orders.delivered', assignment.order.id));
             }
         });
       },

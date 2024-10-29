@@ -71,7 +71,7 @@ class ApplicationController extends Controller
     }
     
     public function fetchBrands() {
-        $brands = Brand::whereStatus("active")->orderBy("name", "asc")->get();
+        $brands = Brand::whereStatus("active")->whereIn("type", ["Customer", "Both"])->orderBy("name", "asc")->get();
 
         return response()->success(200, "Success!", [
             "brands" => $brands
@@ -87,7 +87,7 @@ class ApplicationController extends Controller
     }
     
     public function fetchProductParts($productId) {
-        $parts = Product_part::whereStatus("active")->where("product_id", $productId)->orderBy("name", "asc")->get();
+        $parts = Product_part::whereStatus("active")->where("product_id", $productId)->whereNotNull("customer_price")->orderBy("name", "asc")->get();
 
         return response()->success(200, "Success!", [
             "parts" => $parts

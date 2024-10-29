@@ -16,16 +16,18 @@
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" v-model="form.name" class="form-control" id="name" placeholder="Enter product name here">
+                    <span class="text-danger" v-if="errors.name">{{ errors.name }}</span>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea v-model="form.description" class="form-control" id="description" placeholder="Enter product desc here"/>
+                    <span class="text-danger" v-if="errors.description">{{ errors.description }}</span>
                 </div>
                 
                 <div class="form-group">
                     <label>Image</label>
                     <input type="file" accept="image/png, image/jpg, image/jpeg" class="form-control" @change="setImageInRequest">
-                    <!-- <span class="text-danger" v-if="errors.logo">{{ errors.logo }}</span> -->
+                    <span class="text-danger" v-if="errors.path">{{ errors.path }}</span>
                 </div>
 
                 <div class="form-group" v-if="imagePreview">
@@ -42,6 +44,7 @@
                             {{ option.name }}
                         </option>
                     </select>
+                    <span class="text-danger" v-if="errors.brand_id">{{ errors.brand_id }}</span>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
@@ -54,6 +57,8 @@
 import Parent from "../Parent.vue"
 
 export default {
+    props: ["errors"],
+    
   components: {
     Parent
   },

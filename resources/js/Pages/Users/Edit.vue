@@ -23,7 +23,11 @@
                     <label for="email">Email</label>
                     <input type="email" v-model="form.email" class="form-control" id="email" placeholder="Enter email">
                     <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
-
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile</label>
+                    <input type="number" v-model="form.mobile" class="form-control" id="mobile" placeholder="Enter mobile">
+                    <div v-if="errors.mobile" class="text-danger">{{ errors.mobile }}</div>
                 </div>
                 <div class="form-group">
                     <label for="role">Role</label>
@@ -58,6 +62,7 @@ export default {
         id: this.$page.props.user.id,
         name: (this.$page.props.user && this.$page.props.user.name),
         email: (this.$page.props.user && this.$page.props.user.email),
+        mobile: (this.$page.props.user && this.$page.props.user.mobile),
         role: (this.$page.props.user && this.$page.props.user.role),
       }
     }

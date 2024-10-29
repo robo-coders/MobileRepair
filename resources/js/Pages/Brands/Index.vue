@@ -24,6 +24,7 @@
                       <th scope="col">Name</th>
                       <th scope="col" width="50%">Description</th>
                       <th scope="col">Status</th>
+                      <th scope="col">Type</th>
                       <!-- <th scope="col">Created Date</th> -->
                       <th scope="col">Actions</th>
                     </tr>
@@ -31,11 +32,14 @@
                   <tbody>
                     <tr v-for="(brand, index) in brands" :key="brand.id">
                       <th scope="row">{{ index + 1 }}</th>
-                      <td><img :src="brand.path" width="50" height="50" class="rounded" alt="Logo" style="height: 40px; width: auto;"></td>
+                      <td><img :src="brand.image" width="50" height="50" class="rounded" alt="Logo" style="height: 40px; width: auto;"></td>
                       <td>{{ brand.name }}</td>
                       <td>{{ brand.description }}</td>
                       <td>
                         <span class="badge" :class="(brand.status == 'active') ? 'badge-success' : 'badge-warning'">{{ brand.status }}</span>
+                      </td>
+                      <td>
+                        <span class="badge" :class="(brand.type == 'Both') ? 'badge-success' : 'badge-primary'">{{ brand.type }}</span>
                       </td>
                       <!-- <td>{{ brand.created_date }}</td> -->
                       <td>

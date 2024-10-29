@@ -16,18 +16,22 @@
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" v-model="form.name" class="form-control" id="name" placeholder="Enter product name here">
+                    <span class="text-danger" v-if="errors.name">{{ errors.name }}</span>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea type="text" v-model="form.description" class="form-control" id="description" placeholder="Enter product desc here"/>
+                    <span class="text-danger" v-if="errors.description">{{ errors.description }}</span>
                 </div>
                 <div class="form-group">
                     <label for="customer_price">Customer Price</label>
                     <input type="number" v-model="form.customer_price" class="form-control" id="customer_price" placeholder="Enter customer price">
+                    <span class="text-danger" v-if="errors.customer_price">{{ errors.customer_price }}</span>
                 </div>
                 <div class="form-group">
                     <label for="agent_price">Agent Price</label>
                     <input type="number" v-model="form.agent_price" class="form-control" id="agent_price" placeholder="Enter agent price">
+                    <span class="text-danger" v-if="errors.agent_price">{{ errors.agent_price }}</span>
                 </div>
 
                 <div class="form-group">
@@ -38,6 +42,7 @@
                             {{ option.name }}
                         </option>
                     </select>
+                    <span class="text-danger" v-if="errors.product_id">{{ errors.product_id }}</span>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Update</button>

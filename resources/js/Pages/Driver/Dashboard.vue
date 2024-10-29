@@ -21,41 +21,42 @@
             <table class="table table-striped">
               <thead class="bg-primary text-white">
                   <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Order Number</th>
-                  <th scope="col" width="15%">Customer</th>
-                  <th scope="col">Brand</th>
-                  <th scope="col">Product</th>
-                  <th scope="col">Part</th>
-                  <th scope="col">Status</th>
-                  <!-- <th scope="col">Type</th> -->
-                  <th scope="col">Created at</th>
-                  <th scope="col">Actions</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Order Number</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Part</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Payment Type</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Actions</th>
                   </tr>
               </thead>
               <tbody>
                 <tr v-for="(order, index) in orders" :key="order.id">
                   <th scope="row">{{ index + 1 }}</th>
-                    <td>{{ order.order_number }}</td>
-                    <td>{{ order.user?.name }}</td>
-                    <td>{{ order.brand?.name }}</td>
-                    <td>{{ order.product?.name }}</td>
-                    <td>{{ (order?.order_parts[0]?.part?.name) ?? "---" }}</td>
-                    <td>
-                        <span v-if="order.status === 'Pending'" class="badge badge-warning">Pending</span>
-                        <span v-if="order.status === 'Assigned'" class="badge badge-primary">Assigned</span>
-                        <span v-if="order.status === 'Processing'" class="badge badge-info">Processing</span>
-                        <span v-if="order.status === 'Shipped'" class="badge badge-primary">Shipped</span>
-                        <span v-if="order.status === 'Delivered'" class="badge badge-success">Delivered</span>
-                        <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
-                    </td>
-                    <td> {{order.order_date}} </td>
-                    <td>
-                      <Link :href="'/orders/details/' + order?.id" class="m-1 btn btn-sm btn-primary">View</Link>
-                      <Link  class="btn btn-sm btn-primary" @click="assignToMyself(order)">
-                        Assign To Me
-                      </Link>
-                    </td>
+                  <td>{{ order.order_number }}</td>
+                  <td>{{ order.user?.name }}</td>
+                  <td>{{ order.brand?.name }}</td>
+                  <td>{{ order.product?.name }}</td>
+                  <td>{{ (order?.order_parts[0]?.part?.name) ?? "---" }}</td>
+                  <td>
+                      <span v-if="order.status === 'Pending'" class="badge badge-warning">Pending</span>
+                      <span v-if="order.status === 'Assigned'" class="badge badge-primary">Assigned</span>
+                      <span v-if="order.status === 'Processing'" class="badge badge-info">Processing</span>
+                      <span v-if="order.status === 'Shipped'" class="badge badge-primary">Shipped</span>
+                      <span v-if="order.status === 'Delivered'" class="badge badge-success">Delivered</span>
+                      <span v-if="order.status === 'Cancelled'" class="badge badge-danger">Cancelled</span>
+                  </td>
+                  <td>{{ order?.payment_method }}</td>
+                  <td> {{order.order_date}} </td>
+                  <td>
+                    <Link :href="'/orders/details/' + order?.id" class="m-1 btn btn-sm btn-primary">View</Link>
+                    <Link  class="btn btn-sm btn-primary" @click="assignToMyself(order)">
+                      Assign To Me
+                    </Link>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -81,19 +82,46 @@
     },
     methods: {
       assignToMyself(order) {
+          // Swal.fire({
+          //     title: "Are you sure?",
+          //     text: "Do you want to assign this order to yourself?",
+          //     icon: "warning",
+          //     showCancelButton: true,
+          //     confirmButtonColor: "#3085d6",
+          //     cancelButtonColor: "#d33",
+          //     confirmButtonText: "Yes, do it!"
+          // }).then((result) => {
+          //     if (result.isConfirmed) {
+          //         window.location.replace(route('driver.orders.assignToMyself', order.id));
+          //     }
+          // });
+
           Swal.fire({
-              title: "Are you sure?",
-              text: "Do you want to assign this order to yourself?",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Yes, do it!"
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  window.location.replace(route('driver.orders.assignToMyself', order.id));
-              }
-          });
+            title: "Are you sure?",
+            text: "Do you want to assign this order to yourself?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, do it!",
+            html: (order.payment_method == "Cash") ? `
+                <input type="checkbox" id="confirmationCheckbox" />
+                <label for="confirmationCheckbox">I have received the customer's cash payment.</label>
+            ` : "",
+            preConfirm: () => {
+                const checkbox = Swal.getPopup().querySelector('#confirmationCheckbox');
+                if (!checkbox?.checked && order.payment_method == "Cash") {
+                    Swal.showValidationMessage('Kindly select the checkbox before continuing.');
+                    return false;
+                }
+                return true;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.replace(route('driver.orders.assignToMyself', order.id));
+            }
+        });
+
       },
     }
   }
