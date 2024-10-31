@@ -103,7 +103,19 @@
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, do it!"
+            confirmButtonText: "Yes, do it!",
+            html: (assignment.order.payment_method == "Cash") ? `
+                <input type="checkbox" id="confirmationCheckbox" />
+                <label for="confirmationCheckbox">I have received the customer's cash payment.</label>
+            ` : "",
+            preConfirm: () => {
+                const checkbox = Swal.getPopup().querySelector('#confirmationCheckbox');
+                if (!checkbox?.checked && assignment.order.payment_method == "Cash") {
+                    Swal.showValidationMessage('Kindly select the checkbox before continuing.');
+                    return false;
+                }
+                return true;
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.replace(route('driver.orders.delivered', assignment.order.id));
