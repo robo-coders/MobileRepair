@@ -16,6 +16,27 @@
 
             <form @submit.prevent="saveApplication" class="p-4 card">
                 <div class="form-group">
+                    <label for="name">Shop Name</label>
+                    <input type="text" v-model="form.shop_name" class="form-control" id="name" placeholder="Enter shop name">
+                    <!-- Display name validation errors -->
+                    <div v-if="errors.shop_name" class="text-danger">{{ errors.shop_name }}</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Shop Address</label>
+                    <input type="text" v-model="form.shop_address" class="form-control" id="name" placeholder="Enter shop address">
+                    <!-- Display name validation errors -->
+                    <div v-if="errors.shop_address" class="text-danger">{{ errors.shop_address }}</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">Shop Landline #</label>
+                    <input type="number" v-model="form.shop_landline" class="form-control" id="name" placeholder="Enter shop landline number">
+                    <!-- Display name validation errors -->
+                    <div v-if="errors.shop_landline" class="text-danger">{{ errors.shop_landline }}</div>
+                </div>
+
+                <div class="form-group">
                     <label>NIE/DNI/CIF</label>
                     <input type="file" accept="application/pdf" class="form-control" @change="setNieRequest">
                     <div v-if="errors.nie" class="text-danger">{{ errors.nie }}</div>
@@ -62,6 +83,9 @@ export default {
         nie: "",
         modelo: "",
         others: "",
+        shop_name: "",
+        shop_address: "",
+        shop_landline: "",
       },
 
     };

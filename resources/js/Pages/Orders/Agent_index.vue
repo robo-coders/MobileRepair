@@ -32,8 +32,8 @@
                 <td>{{ order.order_number }}</td>
                 <td>{{ order.brand?.name }}</td>
                 <td>{{ order.product?.name }}</td>
-                <td> --- </td>
-                <td>{{ order.description }}</td>
+                <td>{{ (order?.order_parts[0]?.part?.name) ?? "---" }}</td>
+                <td>{{ (order.description) ?? "---" }}</td>
                 <td>{{ order.total_amount }}</td>
                 <td>{{ order.created_at }}</td>
                 <td>
@@ -63,14 +63,6 @@ export default {
   components: {
     Parent
   },
-  props: {
-    orders: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    
-  }
+  props: ["orders"]
 }
 </script>

@@ -24,7 +24,10 @@
                         <thead class="bg-primary text-white">
                             <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Shop Name</th>
+                            <th scope="col">Shop Landline</th>
+                            <th scope="col">Shop Address</th>
+                            <th scope="col">Application Status</th>
                             <th scope="col">Nie</th>
                             <th scope="col">Modelo</th>
                             <th scope="col">Others</th>
@@ -36,16 +39,29 @@
                         <tbody>
                             <tr v-for="(application, index) in applications" :key="application.id">
                                 <th scope="row">{{ index + 1 }}</th>
+                                <td>{{ application.shop_name }}</td>
+                                <td>{{ application.shop_landline }}</td>
+                                <td>{{ application.shop_address }}</td>
                                 <td>
                                     <span class="badge badge-success" v-if="application.status == 'Approved'">Approved</span>
                                     <span class="badge badge-primary" v-if="application.status == 'Pending'">Pending</span>
                                     <span class="badge badge-danger" v-if="application.status == 'Rejected'">Rejected</span>
                                 </td>
 
-                                <td><a target="_blank" :href="'/' + application.nie">View Document</a></td>
-                                <td><a target="_blank" :href="'/' + application.modelo">View Document</a></td>
-                                <td><a target="_blank" :href="'/' + application.others">View Document</a></td>
-                                <td>{{ (application.reason) ?? '---' }}</td>
+                                <td>
+                                    <a v-if="application.nie" target="_blank" :href="'/' + application.nie">View Document</a>
+                                    <span v-else>N/A</span>
+                                </td>
+                                <td>
+                                    <a v-if="application.modelo" target="_blank" :href="'/' + application.modelo">View Document</a>
+                                    <span v-else>N/A</span>
+                                </td>
+                                <td>
+                                    <a v-if="application.others" target="_blank" :href="'/' + application.others">View Document</a>
+                                    <span v-else>N/A</span>
+                                </td>
+                                
+                                <td>{{ (application.reason) ?? 'N/A' }}</td>
 
                                 <td>{{ application.created_date }}</td>
                                 <td>{{ application.updated_date }}</td>

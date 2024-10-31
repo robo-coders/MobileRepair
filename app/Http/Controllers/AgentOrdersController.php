@@ -20,10 +20,8 @@ class AgentOrdersController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $orders = Order::with('order_parts', 'brand', 'product')->latest()->get();
 
-        // $orders = Order::with('brand')
-        $orders = Order::with('order_parts', 'brand', 'product')
+        $orders = Order::with('order_parts', 'order_parts.part', 'brand', 'product')
                     ->where('user_id', $user->id)
                     ->latest()->get();
 

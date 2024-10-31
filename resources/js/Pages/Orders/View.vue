@@ -6,6 +6,9 @@
             <div class="col">
                 <h3 class="mb-4">Order Details</h3>
             </div>
+            <div class="col text-right">
+                <a :href="'/orders/generate-invoice/' + order?.id" target="_blank" class="btn btn-primary btn-sm">Generate Invoice</a>
+            </div>
         </div>
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">

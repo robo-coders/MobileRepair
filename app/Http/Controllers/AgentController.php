@@ -44,23 +44,39 @@ class AgentController extends Controller
     public function saveApplication(Request $request)
     {
         $request->validate([
-            'nie' => ['required', 'mimes:pdf', 'max:5120'],
-            'modelo' => ['required', 'mimes:pdf', 'max:5120'],
+            'nie' => ['nullable', 'mimes:pdf', 'max:5120'],
+            'modelo' => ['nullable', 'mimes:pdf', 'max:5120'],
             'others' => ['nullable', 'mimes:pdf', 'max:5120'],
+            'shop_name' => ['required', 'string'],
+            'shop_address' => ['required', 'string'],
+            'shop_landline' => ['nullable', 'string']
         ]);
 
         $user_id = Auth::id();
-        $nie = $request->file('nie')->store('public/documents');
-        $modelo = $request->file('modelo')->store('public/documents');
-        $others = $request->file('others')->store('public/documents');
+        $nie = "";
+        $modelo = "";
+        $others = "";
+        
+        if ($request->hasFile("nie")) {
+            $nie = $request->file('nie')->store('public/documents');
+        }
 
+        if ($request->hasFile("modelo")) {
+            $modelo = $request->file('modelo')->store('public/documents');
+        }
+
+        if ($request->hasFile("others")) {
+            $others = $request->file('others')->store('public/documents');
+        }
+        
         Agent_application::create([
-
             'user_id' => $user_id,
             'nie' => str_replace("public", "storage", $nie),
             'modelo' => str_replace("public", "storage", $modelo),
-            'others' => str_replace("public", "storage", $others)
-            
+            'others' => str_replace("public", "storage", $others),
+            'shop_name' => $request->shop_name,
+            'shop_address' => $request->shop_address,
+            'shop_landline' => $request->shop_landline
         ]);
 
         return redirect("/dashboard");

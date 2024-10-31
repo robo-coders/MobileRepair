@@ -41,7 +41,7 @@ export default {
         <div class="w-50">
             <div class="text-center">
                 <img src="images/logo.png" class="w-50 mb-5" alt="">
-                <h1 class="h4 text-gray-900 mb-4">Welcome to Reparapido!</h1>
+                <h1 class="h4 text-gray-900 mb-4">Welcome to <b>Reparapido!</b></h1>
                 <div class="alert alert-danger" v-if="invalidCredentials">
                     {{ errorMessage }}
                 </div>

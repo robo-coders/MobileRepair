@@ -42,7 +42,8 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <Link class="btn btn-sm btn-primary" :href="route('users.edit', user.id)">Edit</Link>
+                                    <Link v-if="user.role == 'Agent'" class="btn btn-sm btn-success" :href="route('agent.status', user.id)">View</Link>
+                                    <Link class="btn btn-sm btn-primary ml-1" :href="route('users.edit', user.id)">Edit</Link>
                                     <Link class="btn btn-sm btn-danger ml-1" @click="deleteUser(user)">Delete</Link>
                                 </td>
                             </tr>

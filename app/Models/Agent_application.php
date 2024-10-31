@@ -16,7 +16,10 @@ class Agent_application extends Model
         'modelo',
         'others',
         'reason',
-        'status'
+        'status',
+        'shop_name',
+        'shop_address',
+        'shop_landline'
     ];
 
     protected $appends = [

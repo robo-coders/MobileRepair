@@ -148,7 +148,7 @@
                                 <strong>INVOICE TO</strong><br>
                                 {{ $user->name }}<br>
                                 {{ $user->email }}<br>
-                                {{ $order->address->address }}
+                                {{ $order?->address?->address }}
                             </td>
                             <td>
                                 <strong>PAYMENT METHOD</strong><br>
@@ -170,6 +170,7 @@
             </tr>
             <tr>
                 <td>
+                {{$order->brand->image}}
                     <img height="auto" width="50" src="{{ $order->brand->image }}" alt="">
                 </td>
                 <td>{{ strtoupper($order->brand->name) }}</td>

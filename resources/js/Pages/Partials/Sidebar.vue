@@ -30,7 +30,7 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
 
-        <li class="nav-item active" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
+        <!-- <li class="nav-item active" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Users</span>
@@ -44,7 +44,7 @@
                         <Link class="collapse-item" href="/users/customer"><i class="fas fa-fw fa-tachometer-alt"></i><span>Customer</span></Link>
                     </div>
                 </div>
-            </li>
+        </li> -->
         
         <li class="nav-item">
             <Link class="nav-link" v-if="$page.props.auth.user.role == 'Super Admin' || $page.props.auth.user.role == 'Admin'" href="/users"><i class="fas fa-fw fa-tachometer-alt"></i><span>Users</span></Link>

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Assignment;
 use App\Models\Order;
 use App\Models\Order_part;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -82,5 +85,19 @@ class OrderController extends Controller
         }
         
         return back();
+    }
+
+    public function generateInvoice ($order_id) {
+
+        $order = Order::with(["address", "order_parts", "order_parts.part"])->find($order_id);
+        $part = $order->order_parts[0]->part;
+
+        $pdf = Pdf::loadView('pdf/invoice', [
+            "part" => $part,
+            "order" => $order,
+            "user" => Auth::user()
+        ]);
+
+        return $pdf->stream();
     }
 }

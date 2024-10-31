@@ -14,6 +14,7 @@
           <div class="p-5 card">
               <div class="text-center">
                   <h3>Select Brand</h3>
+                  <h6>{{ form }}</h6>
                   <div class="row mt-4">
                       <div class="col-4 m-auto" v-for="brand in brands" :key="brand.id" @click="selectBrand(brand)">
                           <img :id="'brand-' + brand.id" :src="brand.image" alt="" class="brand rounded" style="width: 200px; height: auto;">
@@ -39,7 +40,7 @@
                   <div class="row mt-4">
                       <div class="col-4 m-auto" v-for="part in parts" :key="part.id" @click="selectPart(part)">
                           <img :id="'part-' + part.id" :src="'/images/' + part.name + '.jpg'" alt="" class="part rounded" style="width: 200px; height: auto;">
-                          <h4 class="mt-3">{{ part.name }}</h4>
+                          <h4 class="mt-3">{{ part.name }} - <b>€{{ part.agent_price }}</b></h4>
                       </div>
                   </div>
                   <div class="text-center">
@@ -132,28 +133,34 @@
             this.$inertia.post(route("agent.orders.save"), this.form);
           },
           selectBrand : function (brand) {
-            if (brand.id != this.form.brand_id) {
-                this.form.product_id = "";
-                this.form.part_id = "";
+            this.form.brand_id = "";
+            this.form.product_id = "";
+            this.form.part_id = "";
 
-                this.products = "";
-                this.parts = "";
-                
+            this.products = "";
+            this.parts = "";
+            
+            if (! $("#brand-" + brand.id).hasClass("active-item")) {
                 $(".brand").removeClass("active-item");
                 $("#brand-" + brand.id).addClass("active-item");
-    
+
                 this.form.brand_id = brand.id;
                 this.products = brand.products;
             }
+            else {
+                $(".brand").removeClass("active-item");
+            }
           },
           selectProduct : function (product) {
-              if (product.id != this.form.product_id) {
-                this.parts = "";
-                this.form.part_id = "";
-                
+            this.form.product_id = "";
+            this.form.part_id = "";
+
+            this.parts = "";
+
+            if (! $("#product-" + product.id).hasClass("active-item")) {
                 $(".product").removeClass("active-item");
                 $("#product-" + product.id).addClass("active-item");
-    
+
                 this.form.product_id = product.id;
                 this.parts = product.product_parts;
 
@@ -162,15 +169,23 @@
                 setTimeout(() => {
                     _this.card.mount(this.$refs.card);
                 }, 250);
-              }
+            }
+            else {
+                $(".product").removeClass("active-item");
+            }
           },
           selectPart : function (part) {
-              if (part.id != this.form.part_id) {
-                  $(".part").removeClass("active-item");
-                  $("#part-" + part.id).addClass("active-item");
-      
-                  this.form.part_id = part.id;
-              }
+            this.form.part_id = "";
+
+            if (! $("#part-" + part.id).hasClass("active-item")) {
+                $(".part").removeClass("active-item");
+                $("#part-" + part.id).addClass("active-item");
+
+                this.form.part_id = part.id;
+            }
+            else {
+                $(".part").removeClass("active-item");
+            }
           }
       },
   

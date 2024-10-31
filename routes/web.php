@@ -65,6 +65,7 @@ Route::middleware(['auth', 'check-user-role'])->group(function () {
         Route::get('/ready/shipped/{id}', [OrderController::class, 'changeStatusToReadyToShipped'])->name('orders.status.readyToShipped');
         Route::get('/completed/{id}', [OrderController::class, 'changeStatusToCompleted'])->name('orders.status.completed');
         Route::get('/cancelled/{id}', [OrderController::class, 'changeStatusToCancelled'])->name('orders.status.cancelled');
+        Route::get('/generate-invoice/{id}', [OrderController::class, 'generateInvoice'])->name('orders.generate-invoice');
     });
 
     //Drivers
