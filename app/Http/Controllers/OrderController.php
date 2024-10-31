@@ -88,7 +88,6 @@ class OrderController extends Controller
     }
 
     public function generateInvoice ($order_id) {
-
         $order = Order::with(["address", "order_parts", "order_parts.part"])->find($order_id);
         $part = $order->order_parts[0]->part;
 
