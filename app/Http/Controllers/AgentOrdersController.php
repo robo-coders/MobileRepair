@@ -66,7 +66,7 @@ class AgentOrdersController extends Controller
         if ($request->address == "other") {
             $address = Address::create([
                 "user_id" => Auth::id(),
-                "title" => "Other Address",
+                "title" => "Order Delivery Address",
                 "address" => $request->address_text,
                 "category" => "Other"
             ]);
