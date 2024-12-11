@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Order_part;
+use App\Models\Product;
 use App\Models\Product_part;
 use App\Models\User;
 use App\Notifications\NewDriverOrderNotification;
@@ -38,6 +39,10 @@ class AgentOrdersController extends Controller
                     ->whereIn("type", ["Agent", "Both"])
                     ->get();
 
+        // $user = User::with(["addresses"])->whereId(Auth::id())->first();
+
+        // return $user;
+
         return Inertia::render('Orders/Agent_add', [
             'brands' => $brands,
             'pk' => env("STRIPE_PUB_KEY"),
@@ -47,42 +52,53 @@ class AgentOrdersController extends Controller
 
     public function save(Request $request)
     {
-        $part = Product_part::where("id", $request->part_id)->first();
+        $parts       = Product_part::whereIn("id", $request->parts)->get();
+        $product     = Product::find($request->product_id);
+        $brand       = Brand::find($request->brand_id);
+        $amount      = 0;
         $orderNumber = strtoupper(\Str::random(8));
-        $stripe = new StripeClient(env('STRIPE_SECRET'));
-        $narration = "AGENT ORDER # " . $orderNumber . " | " . $part->brand->name . " | " . $part->product->name . " | " . $part->name . " | Reparapido";
+        $narration   = "AGENT ORDER # " . $orderNumber . " | " . $brand->name . " | " . $product->name . " | Reparapido";
 
-        $stripe->charges->create([
-            'amount'        => $part->agent_price * 100,
-            'currency'      => 'eur',
-            'source'        => $request->cardToken,
-            'description'   => $narration,
-            'receipt_email' => (Auth::user()->email) ?? ""
-        ]);
+        foreach ($parts as $part) { $amount += $part->agent_price; }
+
+        if ($request->payment_method == "Credit Card") {
+            $stripe      = new StripeClient(env('STRIPE_SECRET'));
+
+            $stripe->charges->create([
+                'amount'        => $amount * 100,
+                'currency'      => 'eur',
+                'source'        => $request->cardToken,
+                'description'   => $narration,
+                'receipt_email' => (Auth::user()->email) ?? ""
+            ]);
+        }
 
         $order = Order::create([
-            'user_id' => Auth::id(),
-            'order_number' => $orderNumber,
-            'brand_id' => $request->brand_id,
-            'product_id' => $request->product_id,
+            'user_id'          => Auth::id(),
+            'order_number'     => $orderNumber,
+            'brand_id'         => $request->brand_id,
+            'product_id'       => $request->product_id,
             'delivery_address' => $request->address,
-            'description' => $request->description,
-            'sub_total_amount' => $part->agent_price,
-            'total_amount' => $part->agent_price,
-            'status' => "Pending"
-        ]);
-            
-        Order_part::create([
-            'order_id' => $order->id,
-            'part_id' => $request->part_id,
-            'amount' => $part->agent_price
+            'description'      => $request->description,
+            'sub_total_amount' => $amount,
+            'total_amount'     => $amount,
+            'payment_method'   => $request->payment_method,
+            'status'           => "Pending"
         ]);
 
+        foreach ($parts as $part) {
+            Order_part::create([
+                'order_id' => $order->id,
+                'part_id' => $part->id,
+                'amount' => $part->agent_price
+            ]);
+        }
+        
         $order->narration = $narration;
 
         $drivers = User::whereRole("Driver")->whereStatus("active")->get();
 
-        foreach ($drivers as $key => $driver) {
+        foreach ($drivers as $driver) {
             $driver->notify(new NewDriverOrderNotification($order));
         }
 

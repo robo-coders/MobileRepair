@@ -22,6 +22,7 @@ class Order extends Model
         'sub_total_amount',
         'total_amount',
         'invoice',
+        'payment_method',
         'status'
     ];
 

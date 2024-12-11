@@ -30,7 +30,7 @@
                         <h5>Customer</h5>
                         <p><img :src="order?.user?.profile_photo" class="rounded-circle" alt=""></p>
                         <p class="mb-0">Name : {{ order?.user?.name }}</p>
-                        <p>Mobile : {{ (order?.user?.mobile) ?? "---" }}</p>
+                        <p>Mobile : {{ (order?.user?.mobile) ?? "Not Available" }}</p>
                         <p v-if="order?.user?.role == 'Super Admin'">Email : {{ order?.user?.email }}</p>
                     </div>
                 </div>
@@ -60,14 +60,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr v-for="part in order?.order_parts">
                             <td>
                                 <img height="auto" width="50" :src="order?.brand?.image" alt="">
                             </td>
                             <td>{{ order?.brand?.name }}</td>
                             <td>{{ order?.product?.name }}</td>
-                            <td>{{ order?.order_parts[0]?.part?.name }}</td>
-                            <td>€ {{ (order?.user?.role == "Agent") ? order?.order_parts[0]?.part?.agent_price : order?.order_parts[0]?.part?.customer_price }}</td>
+                            <td><b>{{ part?.part?.name }}</b></td>
+                            <td><b>€ {{ (order?.user?.role == "Agent") ? part?.part?.agent_price : part?.part?.customer_price }}</b></td>
                         </tr>
                     </tbody>
                     <tfoot>
