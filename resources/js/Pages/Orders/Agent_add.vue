@@ -47,38 +47,82 @@
                         <h3 class="mb-4">Description</h3>
                         <textarea rows="5" class="form-control" placeholder="Enter order description here..." v-model="form.description" />
                     </div>
+
                     <div class="text-center">
                         <br><br><br> 
-                        <h3 class="mb-4">Address</h3>
-                        <textarea rows="5" class="form-control" placeholder="Enter address here..." v-model="form.address" />
+                        <h3 class="mb-4">Select Tax Option</h3>
+                        <div class="form-check form-check text-left">
+                            <input v-model="form.isTax" @change="checkPaymentOptions()" class="form-check-input" type="radio" name="taxOptions" id="withTax" value="yes">
+                            <label class="form-check-label" for="withTax"><b>Payment With Tax</b></label>
+                        </div>
+                        <div class="form-check form-check text-left">
+                            <input v-model="form.isTax" @change="checkPaymentOptions()" class="form-check-input" type="radio" name="taxOptions" id="withoutTax" value="no">
+                            <label class="form-check-label" for="withoutTax"><b>Payment Without Tax</b></label>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <br><br><br> 
+                        <h3 class="mb-4">Saved Addresses</h3>
+
+                        <div class="form-check form-check text-left" v-for="address in $page.props.addresses">
+                            <input v-model="form.address" class="form-check-input" type="radio" name="addressOptions" :id="'order' + address.id" :value="address.id">
+                            <label class="form-check-label" :for="'order' + address.id"><b>{{address.title}}</b> | {{ address.address }} | Ph. {{ (address.phone) ?? "N/A" }}</label>
+                        </div>
+                        <div class="form-check form-check text-left">
+                            <input v-model="form.address" class="form-check-input" type="radio" name="addressOptions" id="otherAddress" value="other">
+                            <label class="form-check-label" for="otherAddress"><b>Other Address</b></label>
+                        </div>
+                    </div>
+
+                    <div class="text-center" v-if="form.address == 'other'">
+                        <textarea rows="5" class="form-control" placeholder="Enter address here..." v-model="form.address_text" />
                     </div>
 
                     <div class="text-left mt-5">
                         <h3 class="mb-3">Payment Method</h3>
                         <div class="form-check form-check">
                             <input v-model="form.payment_method" class="form-check-input" type="radio" name="paymentOptions" id="cash" value="Cash">
-                            <label class="form-check-label" for="cash"><b>Cash on delivery</b></label>
+                            <label class="form-check-label" for="cash"><b>Cash On Delivery</b></label>
                         </div>
-                        <div class="form-check form-check">
+                        <div class="form-check form-check" v-if="form.isTax == 'yes'">
                             <input v-model="form.payment_method" class="form-check-input" type="radio" name="paymentOptions" id="card_on_delivery" value="Card On Delivery">
                             <label class="form-check-label" for="card_on_delivery"><b>Card On Delivery</b></label>
                         </div>
-                        <div class="form-check form-check">
+                        <div class="form-check form-check" v-if="form.isTax == 'yes'">
                             <input v-model="form.payment_method" class="form-check-input" type="radio" name="paymentOptions" id="card" value="Credit Card">
                             <label class="form-check-label" for="card"><b>Card Payment</b></label>
                         </div>
                     </div>
                     
                     <div class="text-left mt-5" :class="(form.payment_method == 'Credit Card') ? 'd-block' : 'd-none'">
-                        <h3 class="mb-4">Card Payment</h3>
-                        <div ref="card" style="border: 1px solid lightgray; padding: 1em; border-radius: 6px;"></div>
-                        <span class="text-danger" v-if="cardErrorMessage">{{ cardErrorMessage }}</span>
+                        <hr>
+
+                        <div class="text-left mb-2">
+                            <label><b>Card Holder Name</b></label>
+                            <div class="form-group">
+                                <input placeholder="Enter card holder name" v-model="form.card_holder_name" class="form-control" type="text" required>
+                            </div>
+                        </div>
+                        
+                        <div class="text-left mb-2">
+                            <label><b>Card Holder Phone Number</b></label>
+                            <div class="form-group">
+                                <input placeholder="Enter card holder name" v-model="form.card_holder_phone_number" class="form-control" type="text" required>
+                            </div>
+                        </div>
+                        
+                        <div class="text-left mb-2">
+                            <label><b>Card Information</b></label>
+                            <div ref="card" style="border: 1px solid lightgray; padding: 0.7em; border-radius: 6px;"></div>
+                            <span class="text-danger" v-if="cardErrorMessage">{{ cardErrorMessage }}</span>
+                        </div>
                     </div>
                 </div>
     
-                <div class="text-center mt-3" v-if="form.brand_id && form.product_id && form.parts.length && form.address">
+                <div class="text-center mt-3">
                     <hr>
-                    <button class="btn btn-primary btn-lg" @click="createToken">Create Order</button>
+                    <button class="btn btn-primary btn-lg" :disabled="!(form.brand_id && form.product_id && form.parts.length && form.address)" @click="createToken">Create Order</button>
                 </div>
           </div>
   
@@ -104,9 +148,13 @@
                 product_id : "", 
                 parts : [],
                 description : "",
-                address : "",
+                address : (this?.$page?.props?.addresses[0]?.id) ?? "other",
+                address_text : "",
                 cardToken : "",
-                payment_method : "Credit Card"
+                isTax : "yes",
+                payment_method : "Credit Card",
+                card_holder_name : this.$page.props.auth.user?.name,
+                card_holder_phone_number : this.$page.props.auth.user?.mobile
               },
               stripe: null,
               card: null,
@@ -208,13 +256,21 @@
                     this.form.parts.push(part.id);
                 }
             }
+          },
+          checkPaymentOptions : function () {
+            if (this.form.isTax == "no") {
+                this.form.payment_method = "Cash"
+            }
+            else {
+                this.form.payment_method = "Credit Card"
+            }
           }
       },
   
       mounted() {
         this.brands = this.$page.props.brands;
         this.initializeStripe();
-      },
+      }
   };
   </script>
   

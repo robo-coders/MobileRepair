@@ -7,7 +7,6 @@ use App\Http\Requests\AddNewAddressRequest;
 use App\Http\Requests\DeleteNewAddressRequest;
 use App\Http\Requests\PlaceOrderRequest;
 use App\Models\Address;
-use App\Models\AddressCategory;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Order_part;
@@ -169,8 +168,7 @@ class ApplicationController extends Controller
 
     public function fetchCustomerAddresses() {
         return response()->success(200, "Success!", [
-            "addresses" => Auth::user()->addresses,
-            "categories" => AddressCategory::all()
+            "addresses" => Auth::user()->addresses
         ]);
     }
 

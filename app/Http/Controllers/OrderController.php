@@ -24,7 +24,7 @@ class OrderController extends Controller
     
     public function details($id)
     {
-        $order = Order::with('order_parts', 'order_parts.part', 'brand', 'product', 'user')->whereId($id)->first();
+        $order = Order::with('order_parts', 'order_parts.part', 'brand', 'product', 'user', 'address')->whereId($id)->first();
 
         return Inertia::render('Orders/View', [
             'order' => $order

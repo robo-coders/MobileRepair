@@ -23,6 +23,8 @@ class Order extends Model
         'total_amount',
         'invoice',
         'payment_method',
+        'card_holder_name',
+        'card_holder_phone_number',
         'status'
     ];
 

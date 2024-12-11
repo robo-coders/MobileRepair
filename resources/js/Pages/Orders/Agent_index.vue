@@ -32,7 +32,7 @@
                 <td>{{ order.order_number }}</td>
                 <td>{{ order.brand?.name }}</td>
                 <td>{{ order.product?.name }}</td>
-                <td>{{ (order?.order_parts[0]?.part?.name) ?? "---" }}</td>
+                <td><span class="badge badge-primary" v-for="current_part in order?.order_parts">{{ current_part?.part?.name }}</span></td>
                 <td>{{ (order.description) ?? "---" }}</td>
                 <td>{{ order.total_amount }}</td>
                 <td>{{ order.created_at }}</td>

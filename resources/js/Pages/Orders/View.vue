@@ -72,6 +72,14 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <th colspan="4" class="text-right">Sub Total</th>
+                            <th>€ {{ order?.sub_total_amount }}</th>
+                        </tr>
+                        <tr v-if="order?.tax_percent">
+                            <th colspan="4" class="text-right">{{order?.tax_percent}}% Tax</th>
+                            <th>€ {{ order?.tax_amount }}</th>
+                        </tr>
+                        <tr>
                             <th colspan="4" class="text-right">Total</th>
                             <th>€ {{ order?.total_amount }}</th>
                         </tr>
@@ -87,7 +95,9 @@
             </div>
             <div class="card-body">
                 <p><strong>Payment Method:</strong> {{ order?.payment_method }}</p>
-                <p><strong>Pickup / Delivery Address Address:</strong> {{ order?.delivery_address }}</p>
+                <p v-if="order?.payment_method == 'Credit Card'"><strong>Card Holder Name:</strong> {{ order?.card_holder_name }}</p>
+                <p v-if="order?.payment_method == 'Credit Card'"><strong>Card Holder Phone Number:</strong> {{ order?.card_holder_phone_number }}</p>
+                <p><strong>Pickup / Delivery Address Address:</strong> {{ (order?.address?.address) ?? "Not Available" }}</p>
             </div>
         </div>
 

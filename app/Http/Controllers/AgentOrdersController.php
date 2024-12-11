@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Order_part;
@@ -39,12 +40,9 @@ class AgentOrdersController extends Controller
                     ->whereIn("type", ["Agent", "Both"])
                     ->get();
 
-        // $user = User::with(["addresses"])->whereId(Auth::id())->first();
-
-        // return $user;
-
         return Inertia::render('Orders/Agent_add', [
             'brands' => $brands,
+            'addresses' => Auth::user()->addresses,
             'pk' => env("STRIPE_PUB_KEY"),
         ]);
         
@@ -52,17 +50,37 @@ class AgentOrdersController extends Controller
 
     public function save(Request $request)
     {
+        $amount      = 0;
+        $taxAmount   = 0;
+        $taxPercent  = 21;
         $parts       = Product_part::whereIn("id", $request->parts)->get();
         $product     = Product::find($request->product_id);
         $brand       = Brand::find($request->brand_id);
-        $amount      = 0;
         $orderNumber = strtoupper(\Str::random(8));
         $narration   = "AGENT ORDER # " . $orderNumber . " | " . $brand->name . " | " . $product->name . " | Reparapido";
 
+        if ($request->address == "other") {
+            $address = Address::create([
+                "user_id" => Auth::id(),
+                "title" => "Other Address",
+                "address" => $request->address_text,
+                "category" => "Other"
+            ]);
+
+            $request->merge([
+                "address" => $address->id
+            ]);
+        }
+
         foreach ($parts as $part) { $amount += $part->agent_price; }
 
+        if ($request->isTax == "yes") {
+            $taxAmount = $amount * ($taxPercent / 100);
+            $amount = $taxAmount + $amount;
+        }
+
         if ($request->payment_method == "Credit Card") {
-            $stripe      = new StripeClient(env('STRIPE_SECRET'));
+            $stripe = new StripeClient(env('STRIPE_SECRET'));
 
             $stripe->charges->create([
                 'amount'        => $amount * 100,
@@ -74,16 +92,20 @@ class AgentOrdersController extends Controller
         }
 
         $order = Order::create([
-            'user_id'          => Auth::id(),
-            'order_number'     => $orderNumber,
-            'brand_id'         => $request->brand_id,
-            'product_id'       => $request->product_id,
-            'delivery_address' => $request->address,
-            'description'      => $request->description,
-            'sub_total_amount' => $amount,
-            'total_amount'     => $amount,
-            'payment_method'   => $request->payment_method,
-            'status'           => "Pending"
+            'user_id'                  => Auth::id(),
+            'order_number'             => $orderNumber,
+            'brand_id'                 => $request->brand_id,
+            'product_id'               => $request->product_id,
+            'delivery_address'         => $request->address,
+            'description'              => $request->description,
+            'sub_total_amount'         => $amount - $taxAmount,
+            'total_amount'             => $amount,
+            'tax_percent'              => $taxPercent,
+            'tax_amount'               => $taxAmount,
+            'payment_method'           => $request->payment_method,
+            'status'                   => "Pending",
+            'card_holder_name'         => $request->card_holder_name,
+            'card_holder_phone_number' => $request->card_holder_phone_number
         ]);
 
         foreach ($parts as $part) {
