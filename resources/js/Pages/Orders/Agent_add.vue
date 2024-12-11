@@ -122,7 +122,7 @@
     
                 <div class="text-center mt-3">
                     <hr>
-                    <button class="btn btn-primary btn-lg" :disabled="!(form.brand_id && form.product_id && form.parts.length && form.address)" @click="createToken">Create Order</button>
+                    <button class="btn btn-primary btn-lg" :disabled="!(form.brand_id && form.product_id && form.parts.length && form.address) || btnDisabled" @click="createToken">Create Order</button>
                 </div>
           </div>
   

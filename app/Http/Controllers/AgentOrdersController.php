@@ -59,6 +59,10 @@ class AgentOrdersController extends Controller
         $orderNumber = strtoupper(\Str::random(8));
         $narration   = "AGENT ORDER # " . $orderNumber . " | " . $brand->name . " | " . $product->name . " | Reparapido";
 
+        if ($request->address == "other" && !$request->address_text) {
+            return back();
+        }
+
         if ($request->address == "other") {
             $address = Address::create([
                 "user_id" => Auth::id(),
