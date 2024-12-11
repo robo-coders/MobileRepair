@@ -16,17 +16,13 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <h5>Order Details</h5>
                         <p><strong>Date:</strong> {{ order?.order_date }}</p>
                         <p><strong>Status:</strong> {{ order?.status }}</p>
                         <p><strong>Total:</strong> € {{ order?.total_amount }}</p>
                     </div>
-                    <div class="col-md-4">
-                        <h5>Shipping Address</h5>
-                        <p>{{ order?.delivery_address }}</p>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <h5>Customer</h5>
                         <p><img :src="order?.user?.profile_photo" class="rounded-circle" alt=""></p>
                         <p class="mb-0">Name : {{ order?.user?.name }}</p>
