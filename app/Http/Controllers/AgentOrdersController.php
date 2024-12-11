@@ -119,6 +119,13 @@ class AgentOrdersController extends Controller
                 'amount' => $part->agent_price
             ]);
         }
+
+        $user = Auth::user();
+
+        if (!$user->mobile && $request->card_holder_phone_number) {
+            $user->mobile = $request->card_holder_phone_number;
+            $user->save();
+        }
         
         $order->narration = $narration;
 
