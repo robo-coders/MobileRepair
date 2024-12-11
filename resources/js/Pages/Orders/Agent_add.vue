@@ -38,7 +38,7 @@
                     <h3>Select Part</h3>
                     <div class="row mt-4">
                         <div class="col-4 m-auto" v-for="part in parts" :key="part.id" @click="selectPart(part)">
-                            <img :id="'part-' + part.id" :src="'/images/' + part.name + '.jpg'" alt="" class="part rounded" style="width: 200px; height: auto;">
+                            <img :id="'part-' + part.id" :src="'/images/' + part.name.toLowerCase() + '.jpg'" alt="" class="part rounded" style="width: 200px; height: auto;">
                             <h4 class="mt-3">{{ part.name }} - <b>€{{ part.agent_price }}</b></h4>
                         </div>
                     </div>

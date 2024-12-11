@@ -27,8 +27,8 @@
                         <tr v-for="(product, index) in products" :key="product.id">
                             <th scope="row">{{ index + 1 }}</th>
                             <td>{{ product.brand?.name }}</td>
-                            <td><img :src="product.path" width="50" height="50" class="rounded" alt="Logo" style="height: 40px; width: auto;"></td>
                             <td>{{ product.name }}</td>
+                            <td><img :src="product.path" width="50" height="50" class="rounded" alt="Logo" style="height: 40px; width: auto;"></td>
                             <td>{{ product.description }}</td>
                             <td>
                                 <span class="badge" :class="(product.status == 'available') ? 'badge-success' : 'badge-warning'">{{ product.status }}</span>
