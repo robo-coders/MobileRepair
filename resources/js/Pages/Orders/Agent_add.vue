@@ -119,6 +119,39 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="text-left mt-3 col">
+                        <h5 class="mb-3">Sub Total</h5>
+                    </div>
+                    <div class="text-right mt-3 col">
+                        <h5 class="mb-3">€ {{ getPricing[2].toFixed(2) }}</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-left mt-0 col">
+                        <h5 class="mb-3">Tax(%)</h5>
+                    </div>
+                    <div class="text-right mt-0 col">
+                        <h5 class="mb-3">{{ getPricing[0] + "%" }}</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-left mt-0 col">
+                        <h5 class="mb-3">Tax Amount</h5>
+                    </div>
+                    <div class="text-right mt-0 col">
+                        <h5 class="mb-3">€ {{ getPricing[1].toFixed(2) }}</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-left mt-0 col">
+                        <h5 class="mb-3">Grand Total</h5>
+                    </div>
+                    <div class="text-right mt-0 col">
+                        <h5 class="mb-3">€ {{ getPricing[3].toFixed(2) }}</h5>
+                    </div>
+                </div>
     
                 <div class="text-center mt-3">
                     <hr>
@@ -264,7 +297,44 @@
             else {
                 this.form.payment_method = "Credit Card"
             }
-          }
+          },
+          filterPartsByIds : function (ids) {
+                let parts = (this.parts && this.parts.length > 0) ? this.parts : [];
+                return parts.filter(part => ids.includes(part.id));
+            }
+      },
+
+      computed : {
+        getPricing : function () {
+            let taxPercentAge = 0;
+            let taxAmount = 0;
+            let subTotal = 0;
+            let grandTotal = 0;
+
+            if (this.form.isTax == "yes") {
+                taxPercentAge = 21;
+            }
+
+            if (this.form.parts && this.form.parts.length > 0) {
+                let parts = this.filterPartsByIds(this.form.parts);
+                parts.forEach(part => {
+                    subTotal = parseFloat(subTotal) + parseFloat(part.agent_price);
+                });
+            }
+
+            if (subTotal > 0 && taxPercentAge > 0) {
+                taxAmount = parseFloat(subTotal) * (parseInt(taxPercentAge) / 100);
+            }
+
+            grandTotal = parseFloat(subTotal) + parseFloat(taxAmount);
+
+            return [
+                taxPercentAge,
+                taxAmount,
+                subTotal,
+                grandTotal,
+            ];
+        }
       },
   
       mounted() {
